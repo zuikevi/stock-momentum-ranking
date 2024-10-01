@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .navbar-name { @apply inline-block bg-[#DCF367] m-1 rounded-lg px-2 py-1 text-sm font-medium; }
+    .navbar-btn { @apply inline-block hover:bg-[#DCF367] m-1 rounded-full px-2 py-1 text-sm font-medium; }
+
+    .text-title { @apply text-3xl font-medium text-center px-4 py-4; }
+}
