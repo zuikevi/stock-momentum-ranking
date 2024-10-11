@@ -11,18 +11,12 @@ export function Navbar() {
       </div>
 
       <div className="col-span-2 flex flex-row justify-center">
-
         <p className="navbar-btn cursor-pointer"><Link to="/momentum">momentum</Link></p>
-        <p className="navbar-btn cursor-pointer">how it works</p>
-        
-
         <div className="navbar-btn flex flex-row cursor-pointer">
           <p>more</p>
           <p className="content-center pl-2 pt-0.5 text-xs"><FaChevronDown /></p>
         </div>
-
       </div>
-      
     </div>
   );
 }

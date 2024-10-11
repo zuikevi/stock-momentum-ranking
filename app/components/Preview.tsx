@@ -59,7 +59,7 @@ export function Preview() {
         return <div>Loading...</div>;
     }
 
-    const rowsToDisplay = showAllRows ? sortedData : sortedData?.slice(0, 20); // Determine rows to display
+    const rowsToDisplay = showAllRows ? sortedData : sortedData?.slice(0, 20);
 
     return (
         <div className='grid place-content-center text-[#D1D4DC]'>

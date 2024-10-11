@@ -23,19 +23,19 @@ const Stock: React.FC<selected> = ({ symbol }) => {
     return (
         <div className="relative text-[#141414] pb-6">
 
-            <div className='flex flex-col pl-2 pt-2 pb-2'>
+            {/* <div className='flex flex-col pl-2 pt-2 pb-2'>
                 <p className="text-lg font-semibold">{selected[1]}</p>
                 <div className='flex flex-row gap-4'>
                     <p className="text-base font-regular pt-0.5">{selected[2]}</p>
                     <p className="text-base font-regular pt-0.5">{selected[3]}</p>
                 </div>
                 <p className="text-base font-regular pr-6 pt-0.5">{selected[4]}</p>
-            </div>
+            </div> */}
 
 
 
 
-            {/* <div className='pl-1'>
+            <div className='pl-1'>
                 <p className="text-lg font-semibold">{selected[1]}</p>
                 <div className="flex flex-row justify-start mx-auto flex-wrap">
                     <p className="text-[#888EA0] font-semibold text-xs text-end content-center pr-2">SECTOR:</p>
@@ -58,11 +58,11 @@ const Stock: React.FC<selected> = ({ symbol }) => {
                     <p className="text-base font-regular pr-6">{selected[5]}</p>
                 </div>
 
-                <div className="flex flex-row justify-start mx-auto flex-wrap pt-1">
+                <div className="flex flex-row justify-start mx-auto flex-wrap pt-1 pb-2">
                     <p className="text-[#888EA0] font-semibold text-xs text-end content-center pr-2">FOUNDED:</p>
                     <p className="text-base font-regular pr-6">{selected[7]}</p>
                 </div>
-            </div> */}
+            </div>
 
             
             <div className='flex flex-row gap-4 pl-1'>

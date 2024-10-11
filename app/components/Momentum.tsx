@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useData } from '../context/DataContext';
-import { Link } from '@remix-run/react';
 import { FaChevronDown } from "react-icons/fa";
-import { FaChevronLeft } from "react-icons/fa";
+
 
 interface DataRow {
     symbol: string;
@@ -63,16 +62,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
 
 
     return (
-        <div className='grid place-content-center text-[#141414]'>
-
-            <div className="flex flex-row gap-2 pb-2 pt-12">
-                <p className="cursor-pointer text-sm font-medium underline pt-1"><FaChevronLeft /></p>
-
-                <p className="cursor-pointer text-sm font-medium underline"><Link to="/">home</Link></p>
-                <p className="cursor-pointer text-sm font-medium">{"/"}</p>
-                <p className="cursor-pointer text-sm font-medium underline">view all</p>
-            </div>
-
+        <div className='grid place-content-center text-[#141414] mx-auto text-xs sm:text-xs lg:text-base'>
             <table className="mt-6 text-wrap truncate table-fixed rounded-lg outline outline-1 outline-offset-0 outline-[#363A44]">
                 <thead>
                     <tr>
@@ -80,7 +70,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
                             <th
                                 key={index}
                                 onClick={() => requestSort(column)}
-                                className="px-2 py-1 text-left cursor-pointer font-medium bg-[#FFFFFF]"
+                                className={`px-2 py-1 text-left cursor-pointer font-medium bg-[#FFFFFF]`}
                             >
                                 <div className='flex flex-row'>
                                     <p>{column}</p>
@@ -95,12 +85,12 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
                         <tr
                             key={index}
                             onClick={() => onRowSelect(row.symbol)}
-                            className={`hover:bg-[#1B9982] cursor-pointer 
+                            className={`cursor-pointer
                                 ${index % 2 === 0 ? 'bg-[#F2F1EF]' : 'bg-[#FFFFFF]'} 
                                 ${row.STM! > 0.5 && row.LTM! > 0.5 ? `hover:bg-[#DCF367]` : `hover:bg-[#E1DFDD]`}`}
                         >
                             {Object.values(row).map((cell, i) => (
-                                <td key={i} className={`text-wrap truncate px-2 py-1 ${i === 0 ? 'w-14' : i === 1 ? 'w-56' : i === 2 ? 'w-56' : 'w-20'}`}>
+                                <td key={i} className={`text-wrap truncate px-2 py-1 ${i === 0 ? 'w-12 sm:w-12 lg:w-14' : i === 1 ? 'w-32 sm:w-32 lg:w-56' : i === 2 ? 'w-32 sm:w-32 lg:w-56' : 'w-20 sm:w-20 lg:w-20'}`}>
                                     {cell}
                                 </td>
                             ))}
@@ -116,6 +106,16 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
                     {showAllRows ? 'show less' : 'show all'}
                     <p className="content-center pl-1 pt-1 text-sm underline"><FaChevronDown /></p>
                 </button>
+            </div>
+
+            <div className="financial-modeling-prep-attribution">
+                <a
+                    href="https://financialmodelingprep.com/developer/docs/"
+                    rel="noopener nofollow"
+                    target="_blank"
+                >
+                    <span className="text-blue-500 underline text-sm">Data provided by Financial Modeling Prep</span>
+                </a>
             </div>
         </div>
     );

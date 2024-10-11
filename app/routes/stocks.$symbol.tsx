@@ -13,8 +13,8 @@ import { FaRegEye } from "react-icons/fa6";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "stock momentum rankings" },
+    { name: "stock momentum rankings", content: "stock momentum rankings" },
   ];
 };
 
