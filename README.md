@@ -1,40 +1,13 @@
-# Welcome to Remix!
+### stock momentum ranking
+Project built to gather and combine data from multiple APIs to calculate stock price momentums.  
+  
+The short-term momentum (STM) and long-term momentum (LTM) are calculated based on price change history over a set period of time:  
+STM `1 day` `5 days` `1 month` and LTM `1 year` `3 years` `5 years`.  
 
-- 📖 [Remix docs](https://remix.run/docs)
+Price change data has weights added to adjust the impact of each of the durations, for example in short-term momentum calculations the 5 day price change value has a weight of 1.5 applied. The final values are normalised rankings ranging from 0 to 1, where 1 indicates that this stock has the best momentum score compared to the others.  
+  
+This project currently only supports S&P500 stocks and is still a work in progress.
 
-## Development
+![home page image](home_page.png)
+![momentum page image](momentum_page.png)
 
-Run the dev server:
-
-```shellscript
-npm run dev
-```
-
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
