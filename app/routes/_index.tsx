@@ -28,11 +28,11 @@ export default function Index() {
 
           <div className="flex flex-col sm:flex-col lg:flex-row pb-10 w-full">
 
-            <div className="w-full lg:w-1/2 pr-6 mb-6 lg:mb-0">
+            {/* <div className="w-full lg:w-1/2 pr-6 mb-6 lg:mb-0">
               {selectedSymbol && <Stock symbol={selectedSymbol} />}
-            </div>
+            </div> */}
 
-            <div className="w-full lg:w-1/2 flex justify-end text-end">
+            <div className="w-full lg:w-full flex">
               <TopPicks onSymbolSelect={handleSymbolSelect} />
             </div>
           </div>
