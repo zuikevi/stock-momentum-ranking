@@ -20,7 +20,7 @@ export default function Index() {
   };
 
   return (
-    <div className="font-sans p-4 mx-auto">
+    <div className="font-sans p-0 lg:p-4 mx-auto">
       <Navbar />
 
       <div className="flex justify-center mt-14 mx-auto">
@@ -32,7 +32,7 @@ export default function Index() {
               {selectedSymbol && <Stock symbol={selectedSymbol} />}
             </div> */}
 
-            <div className="w-full lg:w-full flex">
+            <div className="w-full lg:w-full flex p-2">
               <TopPicks onSymbolSelect={handleSymbolSelect} />
             </div>
           </div>

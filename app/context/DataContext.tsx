@@ -61,10 +61,10 @@ const DataContext = createContext<UnifiedDataContext | null>(null);
 
 export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [data, setData] = useState<UnifiedDataContext | null>(null);
-  const dataFetchedRef = useRef(false); // to keep track if data has been fetched
+  const dataFetchedRef = useRef(false);
 
   useEffect(() => {
-    if (dataFetchedRef.current) return; // If data is already fetched, skip the fetch
+    if (dataFetchedRef.current) return;
 
     const fetchData = async () => {
       try {
@@ -102,11 +102,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         const excludeFirstTwoColumns = (combinedDataPreview: any[]) =>
           combinedDataPreview.map(({ security, sector, price, ...rest }) => rest);
-        
-        // Exclude the first two columns
+
         const filteredData = excludeFirstTwoColumns(combinedDataPreview);
 
-        // Sort by STM and LTM to get the top 10
         const topSTM = [...filteredData]
           .sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
           .slice(0, 9);
@@ -114,7 +112,6 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const topLTM = [...filteredData]
           .sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
           .slice(0, 9);
-
 
         setData({
           companyData,
