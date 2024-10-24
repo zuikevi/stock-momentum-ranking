@@ -24,7 +24,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
         direction: 'ascending',
     });
 
-    const [showAllRows, setShowAllRows] = useState(false); // State to toggle row display
+    const [showAllRows, setShowAllRows] = useState(false);
 
     const sortedData = useMemo(() => {
         if (!data || !sortConfig.key) return data?.combinedDataPreview.data;
@@ -58,7 +58,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
         return <div>Loading...</div>;
     }
 
-    const rowsToDisplay = showAllRows ? sortedData : sortedData?.slice(0, 20); // Determine rows to display
+    const rowsToDisplay = showAllRows ? sortedData : sortedData?.slice(0, 20);
 
 
     return (

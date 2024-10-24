@@ -23,7 +23,7 @@ export default function Index() {
     <div className="font-sans p-0 lg:p-4 mx-auto">
       <Navbar />
 
-      <div className="flex justify-center mt-14 mx-auto">
+      <div className="flex justify-center mt-14 mx-auto lg:mx-20">
         <div className="max-w-[1140px] flex flex-col md:justify-end">
 
           <div className="flex flex-col sm:flex-col lg:flex-row pb-10 w-full">
