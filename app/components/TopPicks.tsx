@@ -1,13 +1,12 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from '@remix-run/react';
+import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
-import { FaChevronRight } from "react-icons/fa";
 
 interface TopPicksProps {
     onSymbolSelect: (symbol: string) => void;
 }
 
 const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
+
     const data = useData();
     const assets = data?.bestMomentum.topSTM;
 
@@ -29,78 +28,119 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
 
     if (!data.bestMomentum) { return <div>Loading...</div>; }
 
-    const assetsToDisplay = sortSelection == 'All' ? assets?.filter(item => (item.STM! > momentum || item.LTM! > momentum))
-                            : sortSelection == 'Both' ? assets?.filter(item => (item.STM! > momentum && item.LTM! > momentum))
-                            : sortSelection == 'STM' ? assets?.filter(item => item.STM! > momentum)
-                            : assets?.filter(item => item.LTM! > momentum);
+
+    let assetsToDisplay = sortSelection == 'All' ? assets?.filter(item => (item.STM! > momentum || item.LTM! > momentum))
+        : sortSelection == 'Both' ? assets?.filter(item => (item.STM! > momentum && item.LTM! > momentum))
+            : sortSelection == 'STM' ? assets?.filter(item => item.STM! > momentum)
+                : assets?.filter(item => item.LTM! > momentum);
 
     return (
         <div className='flex flex-col place-content-center text-[#141414]'>
 
             <section className='flex flex-row gap-3 p-2 font-semibold text-sm'>
-                <p className={`cursor-pointer ${sortSelection == 'All' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setSortSelection('All')}>All</p>
-                <p className={`cursor-pointer ${sortSelection == 'Both' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setSortSelection('Both')}>Both</p>
-                <p className={`cursor-pointer ${sortSelection == 'STM' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setSortSelection('STM')}>STM</p>
-                <p className={`cursor-pointer ${sortSelection == 'LTM' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setSortSelection('LTM')}>LTM</p>
+                <button
+                    type="button"
+                    id="sort-all"
+                    aria-pressed={sortSelection === 'All'}
+                    aria-labelledby="sort-all"
+                    onClick={() => setSortSelection('All')}
+                    className={`${sortSelection === 'All' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    All
+                </button>
+                <button
+                    type="button"
+                    id="sort-both"
+                    aria-pressed={sortSelection === 'Both'}
+                    aria-labelledby="sort-both"
+                    onClick={() => setSortSelection('Both')}
+                    className={`${sortSelection === 'Both' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    Both
+                </button>
+                <button
+                    type="button"
+                    id="sort-stm"
+                    aria-pressed={sortSelection === 'STM'}
+                    aria-labelledby="sort-stm"
+                    onClick={() => setSortSelection('STM')}
+                    className={`${sortSelection === 'STM' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    STM
+                </button>
+                <button
+                    type="button"
+                    id="sort-ltm"
+                    aria-pressed={sortSelection === 'LTM'}
+                    aria-labelledby="sort-ltm"
+                    onClick={() => setSortSelection('LTM')}
+                    className={`cursor-pointer ${sortSelection == 'LTM' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    LTM
+                </button>
+
                 <p className='text-[#CAC8C7]'>|</p>
-                <p className={`cursor-pointer ${momentum == 0.9 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setMomentum(0.9)}>0.9</p>
-                <p className={`cursor-pointer ${momentum == 0.8 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setMomentum(0.8)}>0.8</p>
-                <p className={`cursor-pointer ${momentum == 0.7 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setMomentum(0.7)}>0.7</p>
-                <p className={`cursor-pointer ${momentum == 0.1 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`} onClick={() => setMomentum(0.1)}>0.1</p>
+
+                <button
+                    type="button"
+                    id="momentum-0.9"
+                    aria-pressed={momentum === 0.9}
+                    aria-labelledby="momentum-0.9"
+                    onClick={() => setMomentum(0.9)}
+                    className={`${momentum === 0.9 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    0.9
+                </button>
+                <button
+                    type="button"
+                    id="momentum-0.8"
+                    aria-pressed={momentum === 0.8}
+                    aria-labelledby="momentum-0.8"
+                    onClick={() => setMomentum(0.8)}
+                    className={`${momentum === 0.8 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    0.8
+                </button>
+                <button
+                    type="button"
+                    id="momentum-0.7"
+                    aria-pressed={momentum === 0.7}
+                    aria-labelledby="momentum-0.7"
+                    onClick={() => setMomentum(0.7)}
+                    className={`${momentum === 0.7 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    0.7
+                </button>
+                <button
+                    type="button"
+                    id="momentum-0.1"
+                    aria-pressed={momentum === 0.1}
+                    aria-labelledby="momentum-0.1"
+                    onClick={() => setMomentum(0.1)}
+                    className={`${momentum === 0.1 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
+                    0.1
+                </button>
             </section>
 
             <section className='flex flex-row flex-wrap gap-1 pb-6 sm:pb-6 lg:pb-2'>
-                {/* <p className='text-[#888EA0] font-semibold text-xs pt-0.5'>STM</p> */}
                 {assetsToDisplay?.map((row, index) => (
-                    <p key={index} onClick={() => setSym(row.symbol)}>
-
-                    <div className={`flex flex-row gap-3 cursor-pointer font-semibold text-sm px-2 rounded-full border border-1 
+                    <button
+                        key={index}
+                        onClick={() => setSym(row.symbol)}
+                        id={`asset-${row.symbol}`}
+                        aria-labelledby={`asset-${row.symbol}`}
+                        aria-pressed={sym === row.symbol}
+                         className={`flex flex-row gap-3 cursor-pointer font-semibold text-sm px-2 rounded-full border border-1 
                         ${sym == row.symbol ? 'border-[#C2D75B] bg-[#DCF367]' : 'border-[#CAC8C7] bg-[#E1DFDD]'}`}>
+
                         <p> {row.symbol}</p>
 
-                        <div className={`cursor-pointer flex flex-row gap-1 ${sym == row.symbol ? '' : 'hidden'} `}>
+                        <div className={`flex flex-row gap-1 ${sym == row.symbol ? '' : 'hidden'} `}>
                             <p >{row.STM}</p>
                             <p className="text-[#141414] font-bold content-center text-xs">STM</p>
                         </div>
 
-                        <div className={`cursor-pointer flex flex-row gap-1  ${sym == row.symbol ? '' : 'hidden'} `}>
+                        <div className={`flex flex-row gap-1 ${sym == row.symbol ? '' : 'hidden'} `}>
                             <p >{row.LTM}</p>
                             <p className="text-[#141414] font-bold content-center text-xs">LTM</p>
                         </div>
-                    </div>
-                </p>
+                    </button>
                 ))}
             </section>
 
-            {/* <section className='flex flex-row flex-wrap gap-1'>
-                <p className='text-[#888EA0] font-semibold text-xs pt-0.5'>LTM</p>
-
-                {data.bestMomentum.topLTM?.map((row, index) => (
-                    <p key={index} onClick={() => setSym(row.symbol)}>
-
-                        <div className={`flex flex-row gap-3 cursor-pointer font-semibold text-sm px-2 rounded-full border border-1 
-                            ${sym == row.symbol ? 'border-[#C2D75B] bg-[#DCF367]' : 'border-[#CAC8C7] bg-[#E1DFDD]'}`}>
-                            <p> {row.symbol}</p>
-
-                            <div className={`cursor-pointer flex flex-row gap-1 ${sym == row.symbol ? '' : 'hidden'} `}>
-                                <p >{row.STM}</p>
-                                <p className="text-[#141414] font-bold content-center text-xs">STM</p>
-                            </div>
-
-                            <div className={`cursor-pointer flex flex-row gap-1  ${sym == row.symbol ? '' : 'hidden'} `}>
-                                <p >{row.LTM}</p>
-                                <p className="text-[#141414] font-bold content-center text-xs">LTM</p>
-                            </div>
-                        </div>
-                    </p>
-                ))}
-
-            </section> */}
-
-            {/* <div className="flex flex-row font-semibold text-sm cursor-pointer pt-2 underline justify-end">
-                <Link to="/momentum">more</Link>
-                <p className='pl-1 pt-1 text-xs'><FaChevronRight /></p>
-            </div> */}
         </div>
     );
 }

@@ -105,12 +105,11 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         const filteredData = excludeFirstTwoColumns(combinedDataPreview);
 
-        const topSTM = filteredData;
+        // const topSTM = filteredData;
 
-
-        // const topSTM = [...filteredData]
-        //   .sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
-        //   .slice(0, 16);
+        const topSTM = [...filteredData]
+          .sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0));
+          // .slice(0, 16);
 
         const topLTM = [...filteredData]
           .sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
