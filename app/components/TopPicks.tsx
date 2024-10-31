@@ -27,11 +27,19 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
 
     if (!data.bestMomentum) { return <div>Loading...</div>; }
 
-
-    let assetsToDisplay = sortSelection == 'All' ? assets?.filter(item => (item.STM! >= momentum || item.LTM! >= momentum))
-                        : sortSelection == 'Both' ? assets?.filter(item => (item.STM! >= momentum && item.LTM! >= momentum))
-                        : sortSelection == 'STM' ? assets?.filter(item => item.STM! >= momentum)
-                        : assets?.filter(item => item.LTM! >= momentum);
+    let assetsToDisplay;
+    if (momentum < 0.5) {
+        assetsToDisplay = sortSelection === 'All' ? assets?.filter(item => (item.STM! <= momentum || item.LTM! <= momentum))
+            : sortSelection === 'Both' ? assets?.filter(item => (item.STM! <= momentum && item.LTM! <= momentum))
+                : sortSelection === 'STM' ? assets?.filter(item => item.STM! <= momentum)
+                    : assets?.filter(item => item.LTM! <= momentum);
+    }
+    else {
+        assetsToDisplay = sortSelection === 'All' ? assets?.filter(item => (item.STM! >= momentum || item.LTM! >= momentum))
+            : sortSelection === 'Both' ? assets?.filter(item => (item.STM! >= momentum && item.LTM! >= momentum))
+                : sortSelection === 'STM' ? assets?.filter(item => item.STM! >= momentum)
+                    : assets?.filter(item => item.LTM! >= momentum);
+    }
 
     return (
         <div className='flex flex-col place-content-center text-[#141414]'>
@@ -103,7 +111,7 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
                     className={`${momentum === 0.7 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
                     0.7
                 </button>
-                {/* <button
+                <button
                     type="button"
                     id="momentum-0.1"
                     aria-pressed={momentum === 0.1}
@@ -111,18 +119,18 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
                     onClick={() => setMomentum(0.1)}
                     className={`${momentum === 0.1 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
                     0.1
-                </button> */}
+                </button>
             </section>
 
             <section className='flex flex-row flex-wrap gap-1 pb-6 sm:pb-6 lg:pb-2'>
                 {assetsToDisplay?.map((row, index) => (
                     <button
                         key={index}
-                        onClick={() => {setSym(row.symbol), onSymbolSelect(row.symbol)}}
+                        onClick={() => { setSym(row.symbol), onSymbolSelect(row.symbol) }}
                         id={`asset-${row.symbol}`}
                         aria-labelledby={`asset-${row.symbol}`}
                         aria-pressed={sym === row.symbol}
-                         className={`flex flex-row gap-3 cursor-pointer font-semibold text-sm px-2 rounded-full border border-1 
+                        className={`flex flex-row gap-3 cursor-pointer font-semibold text-sm px-2 rounded-full border border-1 
                         ${sym == row.symbol ? 'border-[#C2D75B] bg-[#DCF367]' : 'border-[#CAC8C7] bg-[#E1DFDD]'}`}>
 
                         <p> {row.symbol}</p>

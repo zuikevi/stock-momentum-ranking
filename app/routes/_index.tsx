@@ -28,17 +28,21 @@ export default function Index() {
 
           <div className="flex flex-col sm:flex-col lg:flex-row pb-2 w-full">
 
-            
+
 
             <div className="w-full lg:w-full flex p-2">
               <TopPicks onSymbolSelect={handleSymbolSelect} />
             </div>
           </div>
 
-          <div className="flex flex-row gap-2 w-full lg:w-full pr-6 mb-6 lg:mb-0">
-              {selectedSymbol && <Stock symbol={selectedSymbol} />}
-              {selectedSymbol && <Stock symbol={selectedSymbol} />}
+          <div className="flex flex-col lg:flex-row gap-0 lg:gap-2 w-full lg:w-full px-2 lg:pr-6 mb-6 lg:mb-0">
+            {selectedSymbol && <Stock symbol={selectedSymbol} />}
+            {/* {selectedSymbol && <Stock symbol={selectedSymbol} />} */}
+
+            <div className="relative min-h-12 cursor-pointer max-w-96 min-w-44 text-[#141414] mb-6 pb-1 rounded-lg border-2 border-dashed border-[#CAC8C7]">
+              <p className="text-[#CAC8C7] text-center font-semibold pt-3 lg:pt-12">compare</p>
             </div>
+          </div>
 
           <div className="h-[440px] w-full sm:h-[440px] sm:w-full lg:h-[620px] lg:w-[1120px]">
             <TradingViewWidget />
