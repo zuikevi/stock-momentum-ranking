@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
 
+import { FaPlugCircleBolt } from "react-icons/fa6"; //energy
+import { GiMedicines } from "react-icons/gi"; // health care
+import { FaChevronDown } from "react-icons/fa";
+
 interface TopPicksProps {
     onSymbolSelect: (symbol: string) => void;
 }
@@ -11,8 +15,8 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
     const assets = data?.bestMomentum.topSTM;
 
     const [sym, setSym] = useState(' ');
-    const [momentum, setMomentum] = useState(0.9);
-    const [sortSelection, setSortSelection] = useState('All');
+    const [momentum, setMomentum] = useState(0.8);
+    const [sortSelection, setSortSelection] = useState('Both');
 
     if (!data) {
         return (
@@ -45,15 +49,7 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
         <div className='flex flex-col place-content-center text-[#141414]'>
 
             <section className='flex flex-row gap-3 p-2 font-semibold text-sm'>
-                <button
-                    type="button"
-                    id="sort-all"
-                    aria-pressed={sortSelection === 'All'}
-                    aria-labelledby="sort-all"
-                    onClick={() => setSortSelection('All')}
-                    className={`${sortSelection === 'All' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    All
-                </button>
+
                 <button
                     type="button"
                     id="sort-both"
@@ -120,6 +116,14 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
                     className={`${momentum === 0.1 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
                     0.1
                 </button>
+
+                <p className='text-[#CAC8C7]'>|</p>
+
+                <button className="flex flex-row">
+                    {/* <p className='pr-1'>communication services</p> */}
+                    <FaChevronDown className="content-center mt-1" />
+                </button>
+
             </section>
 
             <section className='flex flex-row flex-wrap gap-1 pb-6 sm:pb-6 lg:pb-2'>

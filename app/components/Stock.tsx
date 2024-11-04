@@ -16,6 +16,9 @@ import { BsCurrencyExchange } from "react-icons/bs"; // financials
 
 import { FaPlus } from "react-icons/fa"; // add to watchlist
 
+import { FaRegStar } from "react-icons/fa";
+
+
 interface selected {
     symbol: string;
 }
@@ -36,22 +39,19 @@ const Stock: React.FC<selected> = ({ symbol }) => {
     }
 
     return (
-        <div className="relative max-w-96 min-w-60 text-[#141414] mb-6 pb-1
-            bg-gradient-to-br from-[#DCF367] from-40% to-[#F3E767] to-80% px-1 rounded-lg border border-1 border-[#C2D75B]">
+        <div className="relative max-w-76 min-w-60 text-[#141414] mb-6 pb-1
+             bg-gradient-to-br from-[#DCF367] from-40% to-[#F3E767] to-80% border-[#C2D75B] px-1 rounded-lg border border-1 shadow-lg">
 
             <div className='flex flex-col pl-2 pt-2 pb-2 pr-2'>
                 <div className='flex flex-row justify-between gap-2'>
-                <p className="text-lg font-semibold">{selected[1]}</p>
-                <FaPlus size={24} className='cursor-pointer border-[#CAC8C7] bg-[#F2F1EF] border border-1 p-1 rounded-full'/>
+                    <p className="text-lg font-semibold">{selected[1]}</p>
                 </div>
-                
+
                 <div className='flex flex-row gap-1'>
-                    <FaPlugCircleBolt className='m-0.5 my-1 pt-0.5'/>
                     <p className="text-base font-regular pt-0.5">{selected[2]}</p>
                 </div>
                 <div className='flex flex-row gap-1'>
-                    <SiBento className='m-0.5 my-2' />
-                    <p className="text-base font-regular pt-0.5 text-wrap">{selected[3]}</p>
+                    <p className="text-base font-regular text-wrap">{selected[3]}</p>
                 </div>
             </div>
 
@@ -68,7 +68,6 @@ const Stock: React.FC<selected> = ({ symbol }) => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }
