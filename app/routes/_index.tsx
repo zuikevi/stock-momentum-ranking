@@ -37,8 +37,7 @@ export default function Index() {
 
           <div className="flex flex-col lg:flex-row gap-0 lg:gap-2 w-full lg:w-full px-2 lg:pr-6 mb-6 lg:mb-0">
             {selectedSymbol && <Stock symbol={selectedSymbol} />}
-            {/* {selectedSymbol && <Stock symbol={'MCK'} />} */}
-            {/* {selectedSymbol && <Stock symbol={'COR'} />} */}
+            {selectedSymbol && <Stock symbol={'MCK'} />}
 
             <div className="relative min-h-12 cursor-pointer max-w-96 min-w-44 text-[#141414] mb-6 pb-1 rounded-lg border-2 border-dashed border-[#CAC8C7]">
               <p className="text-[#CAC8C7] text-center font-semibold pt-3 lg:pt-12">compare</p>

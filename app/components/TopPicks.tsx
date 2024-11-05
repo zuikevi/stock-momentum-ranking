@@ -18,6 +18,8 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
     const [momentum, setMomentum] = useState(0.8);
     const [sortSelection, setSortSelection] = useState('Both');
 
+    const [sel, setSelected] = useState(false);
+
     if (!data) {
         return (
             <div className='flex flex-col'>
@@ -119,10 +121,29 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
 
                 <p className='text-[#CAC8C7]'>|</p>
 
-                <button className="flex flex-row">
-                    {/* <p className='pr-1'>communication services</p> */}
-                    <FaChevronDown className="content-center mt-1" />
+                <button
+                    onClick={() => setSelected(true)}
+                    className="flex flex-row">
+                    <p className='pr-1'>Communication Services</p>
+                    <FaChevronDown className="content-center mt-1 z-50" />
                 </button>
+
+                <div
+                    className={`relative text-nowrap cursor-pointer z-40 ${sel ? '' : 'hidden'} `}>
+                    <div className='flex flex-col text-left absolute right-0 -top-16 pt-1 bg-[#F2F1EF] w-48 px-2 rounded-lg border border-1 border-[#CAC8C7]'>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Financials</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Health Care</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Consumer Staples</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Communication Services</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Consumer Discretionary</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Information Technology</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Energy</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Materials</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Industrials</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Utilities</button>
+                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Real Estate</button>
+                    </div>
+                </div>
 
             </section>
 
