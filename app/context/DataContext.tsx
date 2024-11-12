@@ -27,6 +27,25 @@ interface PriceVolume {
   volume: number;
 }
 
+// custom
+interface FilterData {
+  symbol: string;
+  sector: string;
+  STM: number | undefined;
+  LTM: number | undefined;
+}
+
+interface AssetData{
+  symbol: string;
+  STM: number | undefined;
+  LTM: number | undefined;
+  price: number;
+  volume: number;
+
+  priceChange: PriceChange[]; // 1d, 5d, ...
+}
+
+// table data
 interface CombinedDataPreview {
   columns: string[];
   data: {
@@ -46,12 +65,14 @@ interface BestMomentum {
 }
 
 interface UnifiedDataContext {
-  companyData: CompanyData;
-  priceChangeData: PriceChange[];
-  priceVolumeData: PriceVolume[];
-
+  filterData: FilterData[];
+  assetData: AssetData[];
   combinedDataPreview: CombinedDataPreview;
-  bestMomentum: BestMomentum;
+
+  companyData: CompanyData;
+  // priceChangeData: PriceChange[];
+  // priceVolumeData: PriceVolume[];
+  // bestMomentum: BestMomentum;
 }
 
 const API_KEY = 'OWzcq3yTKmmXKnSxFKJ3Vgek5RknFNiM';
@@ -77,6 +98,40 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const priceVolumeResponse = await fetch(`https://financialmodelingprep.com/api/v3/quote-short/${stocksStr}?apikey=${API_KEY}`);
         const priceVolumeData: PriceVolume[] = await priceVolumeResponse.json();
 
+
+        const filterData = companyData.data.map((companyRow) => {
+          const symbol = companyRow[0] as string;
+          const gicsSector = companyRow[2] as string;
+          const STM = calcSTM(symbol, priceChangeData);
+          const LTM = calcLTM(symbol, priceChangeData);
+
+          return {
+            symbol: symbol,
+            sector: gicsSector,
+            STM: STM,
+            LTM: LTM
+          };
+        });
+
+        const assetData = companyData.data.map((companyRow) => {
+          const symbol = companyRow[0] as string;
+          const STM = calcSTM(symbol, priceChangeData);
+          const LTM = calcLTM(symbol, priceChangeData);
+          const price = priceVolumeData.find(pv => pv.symbol === symbol)?.price ?? 0;
+          const volume = priceVolumeData.find(pv => pv.symbol === symbol)?.volume ?? 0;
+
+          return {
+            symbol: symbol,
+            STM: STM,
+            LTM: LTM,
+            price: price,
+            volume: volume,
+            details: companyData,
+            priceChange: priceChangeData,
+          };
+        });
+
+        // table data
         const combinedDataPreviewColumns = ["symbol", "security", "sector", "price", "STM", "LTM"];
 
         const combinedDataPreview = companyData.data.map((companyRow) => {
@@ -105,22 +160,23 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         const filteredData = excludeFirstTwoColumns(combinedDataPreview);
 
-        // const topSTM = filteredData;
-
         const topSTM = [...filteredData]
           .sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0));
-          // .slice(0, 16);
+        // .slice(0, 16);
 
         const topLTM = [...filteredData]
           .sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
           .slice(0, 16);
 
         setData({
-          companyData,
-          priceChangeData,
-          priceVolumeData,
+          filterData,
+          assetData,
           combinedDataPreview: { columns: combinedDataPreviewColumns, data: combinedDataPreview },
-          bestMomentum: { topSTM, topLTM },
+          companyData,
+          // priceChangeData,
+          // priceVolumeData,
+          
+          // bestMomentum: { topSTM, topLTM },
         });
 
         dataFetchedRef.current = true;

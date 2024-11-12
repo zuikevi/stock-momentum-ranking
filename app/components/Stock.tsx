@@ -1,23 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
-
-import { SiBento } from "react-icons/si"; //sub-industry
-import { HiChip } from "react-icons/hi"; //IT
-import { FaPlugCircleBolt } from "react-icons/fa6"; //energy
-import { FaCar } from "react-icons/fa"; //consumer discretionary
-import { FaFaucetDrip } from "react-icons/fa6"; //utilities
-import { GiMetalBar } from "react-icons/gi"; //materials
-import { BiSolidBuildingHouse } from "react-icons/bi"; //real estate
-import { GiMedicines } from "react-icons/gi"; // health care
-import { FaShoppingBasket } from "react-icons/fa"; // consumer staples
-import { FaHouseSignal } from "react-icons/fa6"; // communication services
-import { FaGear } from "react-icons/fa6"; // industrials
-import { BsCurrencyExchange } from "react-icons/bs"; // financials
-
-import { FaPlus } from "react-icons/fa"; // add to watchlist
-
-import { FaRegStar } from "react-icons/fa";
-
 
 interface selected {
     symbol: string;
@@ -27,46 +9,66 @@ const Stock: React.FC<selected> = ({ symbol }) => {
 
     const data = useData();
 
-    if (!data) {
-        return <div>Loading...</div>;
-    }
+    if (!data) { return <div>Loading...</div>; }
 
     const selected = data.companyData.data.find(row => row[0] === symbol);
     const priceData = data.combinedDataPreview.data.find(pv => pv.symbol === symbol);
 
-    if (!selected) {
-        return <div>Loading...</div>;
-    }
+    if (!selected) { return <div>Loading...</div>; }
 
     return (
-        <div className="relative max-w-76 min-w-60 text-[#141414] mb-6 pb-1
-             bg-gradient-to-br from-[#DCF367] from-40% to-[#F3E767] to-80% border-[#C2D75B] px-1 rounded-lg border border-1 shadow-lg">
+        <div className="relative min-w-32 text-[#141414] py-1 px-2 ">
 
-            <div className='flex flex-col pl-2 pt-2 pb-2 pr-2'>
-                <div className='flex flex-row justify-between gap-2'>
-                    <p className="text-lg font-semibold">{selected[1]}</p>
-                </div>
-
-                <div className='flex flex-row gap-1'>
-                    <p className="text-base font-regular pt-0.5">{selected[2]}</p>
-                </div>
-                <div className='flex flex-row gap-1'>
-                    <p className="text-base font-regular text-wrap">{selected[3]}</p>
-                </div>
+            <div className='flex flex-row'>
+                <p className="text-sm font-semibold">{selected[0]}</p>
+                <p className="text-sm font-semibold pl-3">{priceData?.STM}</p>
+                <p className="text-[#141414] font-semibold content-center text-sm pl-0.5">stm</p>
+                <p className="text-sm font-semibold pl-3">{priceData?.LTM}</p>
+                <p className="text-[#141414] font-semibold content-center text-sm pl-0.5">ltm</p>
+                {/* <p className="text-sm font-semibold pl-3">34k</p>
+                <p className="text-[#141414] font-semibold content-center text-sm pl-0.5">vol</p>
+                <p className="text-sm font-semibold pl-3">234</p>
+                <p className="text-[#141414] font-semibold content-center text-sm pl-0.5">usd</p> */}
             </div>
 
-            <div className='flex flex-row gap-4 pl-1'>
-                <div className='flex flex-row'>
-                    <p className="text-base font-semibold pl-1">{selected[0]}</p>
-                    <div className='flex flex-row'>
-                        <p className="text-base font-semibold pl-3">{priceData?.STM}</p>
-                        <p className="text-[#141414] font-semibold content-center text-sm pl-0.5 pt-0.5">STM</p>
-                    </div>
-                    <div className='flex flex-row'>
-                        <p className="text-base font-semibold pl-3">{priceData?.LTM}</p>
-                        <p className="text-[#141414] font-semibold content-center text-sm pl-0.5 pt-0.5">LTM</p>
+
+            <section className={`flex flex-row gap-10`}>
+
+                <div>
+                    <p className="text-sm font-semibold pt-2">{selected[1]}</p>
+
+                    <p className="text-sm font-regular">{selected[3]}</p>
+                    <div className='flex flex-row gap-2 flex-wrap'>
+                        <p className="text-sm font-regular">{selected[4]}</p>
+                        <p className="text-sm font-regular">{selected[7]}</p>
                     </div>
                 </div>
+
+                {/* <div>
+                    <p className="text-sm font-regular font-semibold text-wrap pt-2">Percentiles</p>
+
+                    <div className='grid grid-cols-6 text-center'>
+                        <p className="text-xs font-regular px-1">1D</p>
+                        <p className="text-xs font-regular px-1">5D</p>
+                        <p className="text-xs font-regular px-1">1M</p>
+                        <p className="text-xs font-regular px-1">1Y</p>
+                        <p className="text-xs font-regular px-1">3Y</p>
+                        <p className="text-xs font-regular px-1">5Y</p>
+
+                        <p className="text-sm font-regular px-1">0.67</p>
+                        <p className="text-sm font-regular px-1">0.55</p>
+                        <p className="text-sm font-regular px-1">0.34</p>
+                        <p className="text-sm font-regular px-1">0.64</p>
+                        <p className="text-sm font-regular px-1">0.22</p>
+                        <p className="text-sm font-regular px-1">0.11</p>
+
+                    </div>
+                </div> */}
+            </section>
+
+            <div className='flex flex-row gap-1 pt-2 pb-2'>
+                <p className="text-sm font-regular rounded-full border border-1 border-[#141414] px-2">{selected[2]}</p>
+                {/* <p className="text-sm font-regular rounded-full border border-1 border-[#141414] px-2">Top 10%</p> */}
             </div>
         </div>
     );
