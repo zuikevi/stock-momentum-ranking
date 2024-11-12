@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
-
-import { FaPlugCircleBolt } from "react-icons/fa6"; //energy
-import { GiMedicines } from "react-icons/gi"; // health care
 import { FaChevronDown } from "react-icons/fa";
 
 interface TopPicksProps {
@@ -12,11 +9,15 @@ interface TopPicksProps {
 const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
 
     const data = useData();
-    const assets = data?.bestMomentum.topSTM;
+    const assets = data?.filterData;
 
     const [sym, setSym] = useState(' ');
     const [momentum, setMomentum] = useState(0.8);
     const [sortSelection, setSortSelection] = useState('Both');
+
+    const [sectorSort, setSector] = useState('sector');
+    const sectors = ["sector", "Communication Services", "Consumer Discretionary", "Consumer Staples", "Energy", "Financials",
+        "Health Care", "Industrials", "Information Technology", "Materials", "Real Estate", "Utilities"];
 
     const [sel, setSelected] = useState(false);
 
@@ -31,124 +32,91 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
         );
     }
 
-    if (!data.bestMomentum) { return <div>Loading...</div>; }
+    if (!data.filterData) { return <div>Loading...</div>; }
 
     let assetsToDisplay;
+
     if (momentum < 0.5) {
-        assetsToDisplay = sortSelection === 'All' ? assets?.filter(item => (item.STM! <= momentum || item.LTM! <= momentum))
-            : sortSelection === 'Both' ? assets?.filter(item => (item.STM! <= momentum && item.LTM! <= momentum))
-                : sortSelection === 'STM' ? assets?.filter(item => item.STM! <= momentum)
-                    : assets?.filter(item => item.LTM! <= momentum);
+        assetsToDisplay = sortSelection === 'Both' ? assets?.filter(item => (item.STM! <= momentum && item.LTM! <= momentum))
+            : sortSelection === 'STM' ? assets?.filter(item => item.STM! <= momentum)
+                : assets?.filter(item => item.LTM! <= momentum);
     }
     else {
-        assetsToDisplay = sortSelection === 'All' ? assets?.filter(item => (item.STM! >= momentum || item.LTM! >= momentum))
-            : sortSelection === 'Both' ? assets?.filter(item => (item.STM! >= momentum && item.LTM! >= momentum))
-                : sortSelection === 'STM' ? assets?.filter(item => item.STM! >= momentum)
-                    : assets?.filter(item => item.LTM! >= momentum);
+        assetsToDisplay = sortSelection === 'Both' ? assets?.filter(item => (item.STM! >= momentum && item.LTM! >= momentum && item.STM! < momentum + 0.1 && item.LTM! < momentum + 0.1))
+            : sortSelection === 'STM' ? assets?.filter(item => item.STM! >= momentum && item.STM! < momentum + 0.1)
+                : assets?.filter(item => item.LTM! >= momentum && item.LTM! < momentum + 0.1);
     }
 
+    if (sectorSort !== 'sector') {
+        assetsToDisplay = assetsToDisplay?.filter(item => (item.sector === sectorSort));
+    }
+
+    const topSTM = sortSelection === 'Both' ? assetsToDisplay?.sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
+        : sortSelection === 'STM' ? assetsToDisplay?.sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
+            : assetsToDisplay?.sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0));
+
+
     return (
-        <div className='flex flex-col place-content-center text-[#141414]'>
+        <div className='flex flex-col place-content-start text-[#141414]'>
 
-            <section className='flex flex-row gap-3 p-2 font-semibold text-sm'>
+            <section className='flex flex-row gap-3 p-1 font-semibold text-sm'>
 
-                <button
-                    type="button"
-                    id="sort-both"
-                    aria-pressed={sortSelection === 'Both'}
-                    aria-labelledby="sort-both"
-                    onClick={() => setSortSelection('Both')}
-                    className={`${sortSelection === 'Both' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    Both
-                </button>
-                <button
-                    type="button"
-                    id="sort-stm"
-                    aria-pressed={sortSelection === 'STM'}
-                    aria-labelledby="sort-stm"
-                    onClick={() => setSortSelection('STM')}
-                    className={`${sortSelection === 'STM' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    STM
-                </button>
-                <button
-                    type="button"
-                    id="sort-ltm"
-                    aria-pressed={sortSelection === 'LTM'}
-                    aria-labelledby="sort-ltm"
-                    onClick={() => setSortSelection('LTM')}
-                    className={`cursor-pointer ${sortSelection == 'LTM' ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    LTM
-                </button>
+                {['Both', 'STM', 'LTM'].map((option) => (
+                    <button
+                        key={option}
+                        type="button"
+                        id={`sort-${option.toLowerCase()}`}
+                        aria-pressed={sortSelection === option}
+                        aria-labelledby={`sort-${option.toLowerCase()}`}
+                        onClick={() => setSortSelection(option)}
+                        className={`${sortSelection === option ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}
+                    >
+                        {option}
+                    </button>
+                ))}
 
                 <p className='text-[#CAC8C7]'>|</p>
 
-                <button
-                    type="button"
-                    id="momentum-0.9"
-                    aria-pressed={momentum === 0.9}
-                    aria-labelledby="momentum-0.9"
-                    onClick={() => setMomentum(0.9)}
-                    className={`${momentum === 0.9 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    0.9
-                </button>
-                <button
-                    type="button"
-                    id="momentum-0.8"
-                    aria-pressed={momentum === 0.8}
-                    aria-labelledby="momentum-0.8"
-                    onClick={() => setMomentum(0.8)}
-                    className={`${momentum === 0.8 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    0.8
-                </button>
-                <button
-                    type="button"
-                    id="momentum-0.7"
-                    aria-pressed={momentum === 0.7}
-                    aria-labelledby="momentum-0.7"
-                    onClick={() => setMomentum(0.7)}
-                    className={`${momentum === 0.7 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    0.7
-                </button>
-                <button
-                    type="button"
-                    id="momentum-0.1"
-                    aria-pressed={momentum === 0.1}
-                    aria-labelledby="momentum-0.1"
-                    onClick={() => setMomentum(0.1)}
-                    className={`${momentum === 0.1 ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}>
-                    0.1
-                </button>
+                {[0.9, 0.8, 0.7, 0.1].map((value) => (
+                    <button
+                        key={value}
+                        type="button"
+                        id={`momentum-${value}`}
+                        aria-pressed={momentum === value}
+                        aria-labelledby={`momentum-${value}`}
+                        onClick={() => setMomentum(value)}
+                        className={`${momentum === value ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}
+                    >
+                        {value}
+                    </button>
+                ))}
 
                 <p className='text-[#CAC8C7]'>|</p>
 
                 <button
                     onClick={() => setSelected(true)}
                     className="flex flex-row">
-                    <p className='pr-1'>Communication Services</p>
-                    <FaChevronDown className="content-center mt-1 z-50" />
+                    <p className='pr-1'>{sectorSort}</p>
+                    <FaChevronDown size={12} className="content-center mt-1 z-50" />
                 </button>
 
-                <div
-                    className={`relative text-nowrap cursor-pointer z-40 ${sel ? '' : 'hidden'} `}>
-                    <div className='flex flex-col text-left absolute right-0 -top-16 pt-1 bg-[#F2F1EF] w-48 px-2 rounded-lg border border-1 border-[#CAC8C7]'>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Financials</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Health Care</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Consumer Staples</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Communication Services</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Consumer Discretionary</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Information Technology</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Energy</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Materials</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Industrials</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Utilities</button>
-                        <button onClick={() => setSelected(false)} className='hover:pl-2 hover:pr-0 text-left'>Real Estate</button>
+                <div className={`absolute text-xs text-nowrap cursor-pointer z-40 pt-6 w-[600px] ${sel ? '' : 'hidden'} `}>
+                    <div className='relative flex flex-row flex-wrap gap-1 p-1 bg-[#E3E3E2] shadow-inner rounded-md border border-1 border-[#CAC8C7]'>
+                        {sectors.map((sector) => (
+                            <button
+                                key={sector}
+                                onClick={() => { setSelected(false); setSector(sector); }}
+                                className="text-left px-1 py-1 bg-white rounded-md">
+                                {sector}
+                            </button>
+                        ))}
                     </div>
                 </div>
-
             </section>
 
+
             <section className='flex flex-row flex-wrap gap-1 pb-6 sm:pb-6 lg:pb-2'>
-                {assetsToDisplay?.map((row, index) => (
+                {topSTM?.map((row, index) => (
                     <button
                         key={index}
                         onClick={() => { setSym(row.symbol), onSymbolSelect(row.symbol) }}
