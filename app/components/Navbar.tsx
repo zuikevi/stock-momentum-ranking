@@ -10,10 +10,10 @@ export function Navbar() {
         <p className="navbar-name cursor-pointer h-8 content-center"><Link to="/">ico</Link></p>
         <p className="navbar-btn cursor-pointer pt-1"><Link to="/">Filter </Link></p>
         <p className="navbar-btn cursor-pointer pt-1"><Link to="/momentum">Table</Link></p>
-        {/* <div className="navbar-btn flex flex-row cursor-pointer pt-1">
+        <div className="navbar-btn flex flex-row cursor-pointer pt-1">
           <p>Docs</p>
           <p className="content-center pl-2 pb-0.5 text-xs"><FaChevronDown /></p>
-        </div> */}
+        </div>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const Stock: React.FC<selected> = ({ symbol }) => {
                     </div>
                 </div>
 
-                {/* <div>
+                <div>
                     <p className="text-sm font-regular font-semibold text-wrap pt-2">Percentiles</p>
 
                     <div className='grid grid-cols-6 text-center'>
@@ -63,12 +63,12 @@ const Stock: React.FC<selected> = ({ symbol }) => {
                         <p className="text-sm font-regular px-1">0.11</p>
 
                     </div>
-                </div> */}
+                </div>
             </section>
 
             <div className='flex flex-row gap-1 pt-2 pb-2'>
                 <p className="text-sm font-regular rounded-full border border-1 border-[#141414] px-2">{selected[2]}</p>
-                {/* <p className="text-sm font-regular rounded-full border border-1 border-[#141414] px-2">Top 10%</p> */}
+                <p className="text-sm font-regular rounded-full border border-1 border-[#141414] px-2">Top 10%</p>
             </div>
         </div>
     );

@@ -8,15 +8,15 @@ export function Footer() {
 
       <div className="flex flex-row justify-between">
         <div>
-        {/* <p className="navbar-name cursor-pointer h-8 content-center">ico</p> */}
+        <p className="navbar-name cursor-pointer h-8 content-center">ico</p>
         <p className="inline-block m-1 rounded-lg px-2 py-1 text-xs h-8 content-center">*momentum percentiles are based on weighted data</p>
         </div>
         
 
-        {/* <div className="flex flex-row">
+        <div className="flex flex-row">
           <p className="pt-2.5 text-sm">github/original</p>
           <p className="pt-2.5 pl-2 text-sm">github/webapp</p>
-        </div> */}
+        </div>
       </div>
     </div>
   );
