@@ -8,11 +8,11 @@ interface selected {
 const Stock: React.FC<selected> = ({ symbol }) => {
 
     const data = useData();
-
     if (!data) { return <div>Loading...</div>; }
 
     const selected = data.companyData.data.find(row => row[0] === symbol);
     const priceData = data.combinedDataPreview.data.find(pv => pv.symbol === symbol);
+    const asset = data?.filterData.find(pv => pv.symbol === symbol);
 
     if (!selected) { return <div>Loading...</div>; }
 
@@ -55,7 +55,7 @@ const Stock: React.FC<selected> = ({ symbol }) => {
                         <p className="text-xs font-regular px-1">3Y</p>
                         <p className="text-xs font-regular px-1">5Y</p>
 
-                        <p className="text-sm font-regular px-1">0.67</p>
+                        <p className="text-sm font-regular px-1">{asset?.dayChange}</p>
                         <p className="text-sm font-regular px-1">0.55</p>
                         <p className="text-sm font-regular px-1">0.34</p>
                         <p className="text-sm font-regular px-1">0.64</p>
