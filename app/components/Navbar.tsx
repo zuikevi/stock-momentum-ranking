@@ -10,9 +10,15 @@ export function Navbar() {
     <div className="relative flex flex-row justify-between min-h-0 w-full max-w-[1060px] mx-auto pb-2 px-2 gap-1 text-[#141414] text-body">
 
       <div className="flex flex-row justify-start content-center">
-        <p className="navbar-name cursor-pointer h-8 content-center"><Link to="/">ico</Link></p>
-        <p className="navbar-btn cursor-pointer content-center hover:bg-[#DCF367] rounded-md"><Link to="/">Filter </Link></p>
-        <p className="navbar-btn cursor-pointer content-center hover:bg-[#DCF367] rounded-md"><Link to="/momentum">Table</Link></p>
+        <p className="cursor-pointer h-8 content-center">
+          <Link to="/"><img
+            src="/favicon.png"
+            alt="Icon"
+            className="h-8 inline-block rounded-md"
+        /></Link></p>
+        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/">Quick View </Link></p>
+        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/">Filter </Link></p>
+        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/momentum">Table</Link></p>
 
         {/* <div
           onMouseEnter={() => setSelected(true)}

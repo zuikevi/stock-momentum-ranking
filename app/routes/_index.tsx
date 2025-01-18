@@ -31,7 +31,7 @@ export default function Index() {
         <div className="max-w-[1060px] flex flex-col md:justify-end">
 
           <div className="flex flex-col sm:flex-col lg:flex-col pb-10 lg:min-h-64 justify-start place-content-start">
-            <div className="w-full lg:w-full flex p-2">
+            <div className="w-[640px] lg:w-[640px] flex p-2">
               <TopPicks onSymbolSelect={handleSymbolSelect} />
             </div>
 

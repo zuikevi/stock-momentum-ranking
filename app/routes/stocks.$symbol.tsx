@@ -1,15 +1,13 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Navbar } from "~/components/Navbar";
 import { useData } from '../context/DataContext';
-import { useParams } from '@remix-run/react';
-import { TbListDetails } from "react-icons/tb";
-import { RiInformation2Line } from "react-icons/ri";
-import { Link } from '@remix-run/react';
+import { useParams, Link } from '@remix-run/react';
+// import { TbListDetails } from "react-icons/tb";
+// import { RiInformation2Line } from "react-icons/ri";
 import { FaChevronLeft } from "react-icons/fa";
-import { FiChevronsUp } from "react-icons/fi";
-import { FiChevronUp } from "react-icons/fi";
+import { FiChevronsUp, FiChevronUp } from "react-icons/fi";
 import { MdOutlineShowChart } from "react-icons/md";
-import { FaRegEye } from "react-icons/fa6";
+// import { FaRegEye } from "react-icons/fa6";
 
 export const meta: MetaFunction = () => {
   return [
@@ -20,12 +18,11 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const data = useData();
+  const { symbol } = useParams<{ symbol: string }>();
 
   if (!data) {
     return <div>Loading...</div>;
   }
-
-  const { symbol } = useParams<{ symbol: string }>();
   const selected = data.companyData.data.find(row => row[0] === symbol);
 
   const priceData = data.combinedDataPreview.data.find(pv => pv.symbol === symbol);

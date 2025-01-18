@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useData } from '../context/DataContext';
 
 interface selected {
@@ -56,11 +56,11 @@ const Stock: React.FC<selected> = ({ symbol }) => {
                         <p className="text-xs font-regular px-1">5Y</p>
 
                         <p className="text-sm font-regular px-1">{asset?.dayChange}</p>
-                        <p className="text-sm font-regular px-1">0.55</p>
-                        <p className="text-sm font-regular px-1">0.34</p>
-                        <p className="text-sm font-regular px-1">0.64</p>
-                        <p className="text-sm font-regular px-1">0.22</p>
-                        <p className="text-sm font-regular px-1">0.11</p>
+                        <p className="text-sm font-regular px-1">{asset?.fiveDayChange}</p>
+                        <p className="text-sm font-regular px-1">{asset?.monthChange}</p>
+                        <p className="text-sm font-regular px-1">{asset?.yearChange}</p>
+                        <p className="text-sm font-regular px-1">{asset?.threeYearChange}</p>
+                        <p className="text-sm font-regular px-1">{asset?.fiveYearChange}</p>
 
                     </div>
                 </div>
