@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { Navbar } from "~/components/Navbar";
 import Momentum from "~/components/Momentum";
@@ -30,9 +30,9 @@ export default function Index() {
         <div className="flex flex-row gap-2 pb-2 pt-12">
           <p className="cursor-pointer text-sm font-medium underline pt-1"><FaChevronLeft /></p>
 
-          <p className="cursor-pointer text-sm font-medium underline"><Link to="/">home</Link></p>
+          <p className="cursor-pointer text-sm font-medium underline"><Link to="/">back</Link></p>
           <p className="cursor-pointer text-sm font-medium">{"/"}</p>
-          <p className="cursor-pointer text-sm font-medium underline">view all</p>
+          <p className="cursor-pointer text-sm font-medium underline">table view</p>
         </div>
 
         <div className="sticky top-0 bg-[#F2F1EF] w-full mx-auto">

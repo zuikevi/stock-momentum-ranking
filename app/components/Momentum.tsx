@@ -111,7 +111,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
             <div className="financial-modeling-prep-attribution">
                 <a
                     href="https://financialmodelingprep.com/developer/docs/"
-                    rel="noopener nofollow"
+                    rel="noreferrer"
                     target="_blank"
                 >
                     <span className="text-blue-500 underline text-sm">Data provided by Financial Modeling Prep</span>

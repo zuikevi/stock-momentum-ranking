@@ -2,12 +2,8 @@ import { useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
-// import { Landing } from "~/components/Landing";
-import TopPicks from "~/components/TopPicks";
-// import TierList from "~/components/TierList";
+import AllSectors from "~/components/AllSectors";
 import Stock from "~/components/Stock";
-import TradingViewWidget from "~/components/TradingViewWidget";
-// import QuickView from "~/components/QuickView";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,27 +22,15 @@ export default function Index() {
   return (
     <div className="font-sans p-0 lg:p-8 mx-auto">
       <Navbar />
-      {/* <Landing/> */}
 
       <div className="flex justify-center mt-14 mx-auto lg:mx-20">
         <div className="max-w-[1060px] flex flex-col md:justify-end">
 
-          {/* <div className="flex flex-row justify-between pb-40">
-            <div className="pr-20 text-wrap min-w-[400px]">
-            <h4>quick view</h4>
-            <p>view S&P 500 stock short-term and long-term momentums</p>
-            </div>
-
-            <div>
-            <QuickView onSymbolSelect={handleSymbolSelect} />
-            {selectedSymbol && <Stock symbol={selectedSymbol} />}
-            </div>
-          </div> */}
-
 
           <div className="flex flex-col sm:flex-col lg:flex-col pb-10 lg:min-h-64 justify-start place-content-start">
             <div className="w-[980px] lg:w-[980px] flex p-2 pb-3">
-              <TopPicks onSymbolSelect={handleSymbolSelect} />
+                <AllSectors onSymbolSelect={handleSymbolSelect}/>
+              {/* <TopPicks onSymbolSelect={handleSymbolSelect} /> */}
               {/* <TierList onSymbolSelect={handleSymbolSelect} /> */}
 
             </div>
@@ -56,7 +40,7 @@ export default function Index() {
             </div>
           </div>
           <div className="flex flex-row h-[440px] w-full sm:h-[440px] sm:w-full lg:h-[620px] lg:w-[1060px] pb-10">
-            <TradingViewWidget /> 
+            {/* <TradingViewWidget />  */}
           </div>
 
         </div>

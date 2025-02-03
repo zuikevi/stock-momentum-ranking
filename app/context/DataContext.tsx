@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 // local data
 interface CompanyData {
@@ -33,15 +33,23 @@ interface PriceVolume {
 interface FilterData {
   symbol: string;
   sector: string;
-  STM: number | undefined;
-  LTM: number | undefined;
+  STM: number | 0;
+  LTM: number | 0;
+
   dayChange: string;
+  fiveDayChange: string;
+  monthChange: string;
+  yearChange: string;
+  threeYearChange: string;
+  fiveYearChange: string;
+
+  maxChange: string;
 }
 
 interface AssetData {
   symbol: string;
-  STM: number | undefined;
-  LTM: number | undefined;
+  STM: number | 0;
+  LTM: number | 0;
   price: number;
   volume: number;
 
@@ -54,9 +62,10 @@ interface CombinedDataPreview {
     symbol: string;
     security: string;
     sector: string;
-    price: number | undefined;
-    STM: number | undefined;
-    LTM: number | undefined;
+    price: number | 0;
+    volume: number | 0;
+    STM: number | 0;
+    LTM: number | 0;
   }[];
 }
 
@@ -91,14 +100,19 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const filterData = companyData.data.map((companyRow) => {
           const symbol = companyRow[0] as string;
           const priceChange = priceChangeData.find(pc => pc.symbol === symbol);
-          const dayChange = priceChange?.['1D'] || 0;
 
           return {
             symbol: symbol,
             sector: companyRow[2] as string,
             STM: calcSTM(symbol, priceChangeData),
             LTM: calcLTM(symbol, priceChangeData),
-            dayChange: dayChange.toFixed(2),
+            dayChange: (priceChange?.['1D'] || 0).toFixed(2),
+            fiveDayChange: (priceChange?.['5D'] || 0).toFixed(2),
+            monthChange: (priceChange?.['1M'] || 0).toFixed(2),
+            yearChange: (priceChange?.['1Y'] || 0).toFixed(2),
+            threeYearChange: (priceChange?.['3Y'] || 0).toFixed(2),
+            fiveYearChange: (priceChange?.['5Y'] || 0).toFixed(2),
+            maxChange: (priceChange?.max || 0).toFixed(2),
           };
         });
 
@@ -131,7 +145,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
           const price = priceVolumeData.find(pv => pv.symbol === symbol)?.price ?? 0;
 
-          // const volume = priceVolumeData.find(pv => pv.symbol === symbol)?.volume ?? 0;
+          const volume = priceVolumeData.find(pv => pv.symbol === symbol)?.volume ?? 0;
           const STM = calcSTM(symbol, priceChangeData);
           const LTM = calcLTM(symbol, priceChangeData);
 
@@ -140,24 +154,24 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             security: security,
             sector: gicsSector,
             price: price,
-            // volume: volume,
-            STM: STM,
-            LTM: LTM
+            volume: volume,
+            STM: STM || 0 ,
+            LTM: LTM || 0,
           };
         });
 
-        const excludeFirstTwoColumns = (combinedDataPreview: any[]) =>
-          combinedDataPreview.map(({ security, sector, price, ...rest }) => rest);
+        // const excludeFirstTwoColumns = (combinedDataPreview: any[]) =>
+        //   combinedDataPreview.map(({ security, sector, price, ...rest }) => rest);
 
-        const filteredData = excludeFirstTwoColumns(combinedDataPreview);
+        // const filteredData = excludeFirstTwoColumns(combinedDataPreview);
 
-        const topSTM = [...filteredData]
-          .sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0));
-        // .slice(0, 16);
+        // const topSTM = [...filteredData]
+        //   .sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0));
+        //  .slice(0, 16);
 
-        const topLTM = [...filteredData]
-          .sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
-          .slice(0, 16);
+        // const topLTM = [...filteredData]
+        //   .sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
+        //   .slice(0, 16);
 
         setData({
           filterData,
