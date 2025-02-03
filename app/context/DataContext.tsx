@@ -34,7 +34,7 @@ interface FilterData {
   symbol: string;
   sector: string;
   STM: number | 0;
-  LTM: number | undefined;
+  LTM: number | 0;
 
   dayChange: string;
   fiveDayChange: string;
@@ -42,12 +42,14 @@ interface FilterData {
   yearChange: string;
   threeYearChange: string;
   fiveYearChange: string;
+
+  maxChange: string;
 }
 
 interface AssetData {
   symbol: string;
-  STM: number | undefined;
-  LTM: number | undefined;
+  STM: number | 0;
+  LTM: number | 0;
   price: number;
   volume: number;
 
@@ -60,9 +62,10 @@ interface CombinedDataPreview {
     symbol: string;
     security: string;
     sector: string;
-    price: number | undefined;
-    STM: number | undefined;
-    LTM: number | undefined;
+    price: number | 0;
+    volume: number | 0;
+    STM: number | 0;
+    LTM: number | 0;
   }[];
 }
 
@@ -109,6 +112,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             yearChange: (priceChange?.['1Y'] || 0).toFixed(2),
             threeYearChange: (priceChange?.['3Y'] || 0).toFixed(2),
             fiveYearChange: (priceChange?.['5Y'] || 0).toFixed(2),
+            maxChange: (priceChange?.max || 0).toFixed(2),
           };
         });
 
@@ -141,7 +145,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
           const price = priceVolumeData.find(pv => pv.symbol === symbol)?.price ?? 0;
 
-          // const volume = priceVolumeData.find(pv => pv.symbol === symbol)?.volume ?? 0;
+          const volume = priceVolumeData.find(pv => pv.symbol === symbol)?.volume ?? 0;
           const STM = calcSTM(symbol, priceChangeData);
           const LTM = calcLTM(symbol, priceChangeData);
 
@@ -150,9 +154,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             security: security,
             sector: gicsSector,
             price: price,
-            // volume: volume,
-            STM: STM,
-            LTM: LTM
+            volume: volume,
+            STM: STM || 0 ,
+            LTM: LTM || 0,
           };
         });
 

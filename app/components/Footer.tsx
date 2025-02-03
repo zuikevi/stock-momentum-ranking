@@ -1,5 +1,5 @@
-import { FaChevronDown } from "react-icons/fa";
-import { Link } from '@remix-run/react';
+// import { FaChevronDown } from "react-icons/fa";
+// import { Link } from '@remix-run/react';
 
 export function Footer() {
 
