@@ -62,7 +62,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
 
 
     return (
-        <div className='grid place-content-center text-[#141414] mx-auto text-xs sm:text-xs lg:text-base'>
+        <div className='grid place-content-center text-[#141414] mx-auto text-xs sm:text-xs lg:text-base w-fit lg:w-full'>
             <table className="mt-6 text-wrap truncate table-fixed rounded-lg outline outline-1 outline-offset-0 outline-[#363A44]">
                 <thead>
                     <tr>
@@ -90,7 +90,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
                                 ${row.STM! > 0.5 && row.LTM! > 0.5 ? `hover:bg-[#DCF367]` : `hover:bg-[#E1DFDD]`}`}
                         >
                             {Object.values(row).map((cell, i) => (
-                                <td key={i} className={`text-wrap truncate px-2 py-1 ${i === 0 ? 'w-12 sm:w-12 lg:w-14' : i === 1 ? 'w-32 sm:w-32 lg:w-56' : i === 2 ? 'w-32 sm:w-32 lg:w-56' : 'w-20 sm:w-20 lg:w-20'}`}>
+                                <td key={i} className={`text-wrap truncate px-2 py-1 ${i === 0 ? 'w-12 lg:w-14' : i === 1 ? 'w-32 lg:w-56' : i === 2 ? 'w-32 lg:w-56' : 'w-20 lg:w-20'}`}>
                                     {cell}
                                 </td>
                             ))}
