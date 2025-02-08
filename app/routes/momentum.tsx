@@ -23,7 +23,7 @@ export default function Index() {
   };
 
   return (
-    <div className="font-sans">
+    <div className="font-sans lg:p-2 lg:pt-8">
       <Navbar />
 
       <div className="grid place-content-center">
@@ -35,7 +35,7 @@ export default function Index() {
           <p className="cursor-pointer text-sm font-medium underline">table view</p>
         </div>
 
-        <div className="sticky top-0 bg-[#F2F1EF] w-full mx-auto">
+        <div className="sticky top-0 bg-[#F2F1EF] w-full inline-block mx-auto">
           {selectedRow && <Stock symbol={selectedRow} />}
         </div>
         <Momentum onRowSelect={handleRowSelect} />

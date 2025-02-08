@@ -7,4 +7,14 @@
     .navbar-btn { @apply inline-block m-1 px-1 py-1 text-sm font-medium; }
 
     .text-title { @apply text-3xl font-medium text-center px-4 py-4; }
+
+    .btnGreenT1 { @apply border-[#DFE6B9] text-[#F2F1EF] bg-[#94AE32]}
+    .btnGreenT2 { @apply border-[#94AE32] text-[#94AE32] bg-[#DFE6B9]}
+    .btnGreenT3 { @apply border-[#99A233] text-[#99A233] bg-[#DFE0B7]}
+
+    .btnWhiteT1 { @apply border-[#9F9735] text-[#9F9735] bg-[#F2F1EF]}
+    .btnWhiteT2 { @apply border-[#B4683A] text-[#B4683A] bg-[#F2F1EF]}
+
+    .btnRedT2 { @apply border-[#BA5C3B] text-[#BA5C3B] bg-[#E0B9AC]}
+    .btnRedT1 { @apply border-[#E0B3AA] text-[#F2F1EF] bg-[#BF503C]}
 }

@@ -3,7 +3,7 @@ import { Link } from '@remix-run/react';
 
 export function Navbar() {
   return (
-    <div className="relative flex flex-row justify-between min-h-0 w-full max-w-[1060px] mx-auto pb-2 px-2 gap-1 text-[#141414] text-body">
+    <div className="relative flex flex-row justify-between min-h-0 w-full p-8 lg:p-0 lg:max-w-[1060px] mx-auto pb-2 px-2 gap-1 text-[#141414] text-body">
 
       <div className="flex flex-row justify-start content-center">
         <p className="cursor-pointer h-8 content-center">

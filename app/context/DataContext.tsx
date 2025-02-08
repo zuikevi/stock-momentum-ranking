@@ -36,14 +36,16 @@ interface FilterData {
   STM: number | 0;
   LTM: number | 0;
 
-  dayChange: string;
-  fiveDayChange: string;
-  monthChange: string;
-  yearChange: string;
-  threeYearChange: string;
-  fiveYearChange: string;
+  '1D': number | 0;
+  '5D': number | 0;
+  '1M': number | 0;
+  '1Y': number | 0;
+  '3Y': number | 0;
+  '5Y': number | 0;
 
-  maxChange: string;
+  'max': number | 0;
+
+  colours: string;
 }
 
 interface AssetData {
@@ -63,7 +65,7 @@ interface CombinedDataPreview {
     security: string;
     sector: string;
     price: number | 0;
-    volume: number | 0;
+    // volume: number | 0;
     STM: number | 0;
     LTM: number | 0;
   }[];
@@ -101,18 +103,22 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           const symbol = companyRow[0] as string;
           const priceChange = priceChangeData.find(pc => pc.symbol === symbol);
 
+          const stm = calcSTM(symbol, priceChangeData);
+          const ltm = calcLTM(symbol, priceChangeData);
+
           return {
             symbol: symbol,
             sector: companyRow[2] as string,
-            STM: calcSTM(symbol, priceChangeData),
-            LTM: calcLTM(symbol, priceChangeData),
-            dayChange: (priceChange?.['1D'] || 0).toFixed(2),
-            fiveDayChange: (priceChange?.['5D'] || 0).toFixed(2),
-            monthChange: (priceChange?.['1M'] || 0).toFixed(2),
-            yearChange: (priceChange?.['1Y'] || 0).toFixed(2),
-            threeYearChange: (priceChange?.['3Y'] || 0).toFixed(2),
-            fiveYearChange: (priceChange?.['5Y'] || 0).toFixed(2),
-            maxChange: (priceChange?.max || 0).toFixed(2),
+            STM: stm,
+            LTM: ltm,
+            '1D': Number((priceChange?.['1D'] || 0).toFixed(2)),
+            '5D': Number((priceChange?.['5D'] || 0).toFixed(2)),
+            '1M': Number((priceChange?.['1M'] || 0).toFixed(2)),
+            '1Y': Number((priceChange?.['1Y'] || 0).toFixed(2)),
+            '3Y': Number((priceChange?.['3Y'] || 0).toFixed(2)),
+            '5Y': Number((priceChange?.['5Y'] || 0).toFixed(2)),
+            'max': Number((priceChange?.max || 0).toFixed(2)),
+            colours: '',
           };
         });
 
@@ -145,7 +151,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
           const price = priceVolumeData.find(pv => pv.symbol === symbol)?.price ?? 0;
 
-          const volume = priceVolumeData.find(pv => pv.symbol === symbol)?.volume ?? 0;
+          // const volume = priceVolumeData.find(pv => pv.symbol === symbol)?.volume ?? 0;
           const STM = calcSTM(symbol, priceChangeData);
           const LTM = calcLTM(symbol, priceChangeData);
 
@@ -154,7 +160,6 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             security: security,
             sector: gicsSector,
             price: price,
-            volume: volume,
             STM: STM || 0 ,
             LTM: LTM || 0,
           };

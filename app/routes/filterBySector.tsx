@@ -1,53 +1,78 @@
 import { useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { Navbar } from "~/components/Navbar";
-import { Footer } from "~/components/Footer";
+// import { Footer } from "~/components/Footer";
 import AllSectors from "~/components/AllSectors";
 import Stock from "~/components/Stock";
 
 export const meta: MetaFunction = () => {
-  return [
-    { title: "stock momentum rankings" },
-    { name: "stock momentum rankings", content: "stock momentum rankings" },
-  ];
+    return [
+        { title: "stock momentum rankings" },
+        { name: "stock momentum rankings", content: "stock momentum rankings" },
+    ];
 };
 
 export default function Index() {
-  const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+    const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+    const [view, setView] = useState('Both'); // both, stm, ltm
 
-  const handleSymbolSelect = (symbol: string) => {
-    setSelectedSymbol(symbol);
-  };
+    const handleSymbolSelect = (symbol: string) => {
+        setSelectedSymbol(symbol);
+    };
 
-  return (
-    <div className="font-sans p-0 lg:p-8 mx-auto">
-      <Navbar />
+    return (
+        <div className="font-sans p-0 lg:p-2 lg:pt-8 mx-auto">
+            <Navbar />
 
-      <div className="flex justify-center mt-14 mx-auto lg:mx-20">
-        <div className="max-w-[1060px] flex flex-col md:justify-end">
+            <div className="flex flex-row flex-wrap justify-center mt-14 mx-auto conter-center">
+
+                <section className={`flex flex-row gap-3 p-1 font-semibold text-sm`}>
+                    {['Both', 'STM', 'LTM', '1D', '5D', '1M', '1Y', '3Y', '5Y', 'max'].map((option) => (
+                        <button
+                            key={option}
+                            type="button"
+                            id={`sort-${option.toLowerCase()}`}
+                            aria-pressed={view === option}
+                            aria-labelledby={`sort-${option.toLowerCase()}`}
+                            onClick={() => setView(option)}
+                            className={`${view === option ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}
+                        >
+                            {option}
+                        </button>
+                    ))}
+                </section>
+
+                <div className="flex flex-row flex-wrap p-1 gap-1">
+                <div className="flex flex-col lg:flex-row lg:min-w-[460px] lg:max-w-[460px] pt-3 px-2 lg:pl-2 bg-[#E5E5E4] rounded-md">
+                        {selectedSymbol && <Stock symbol={selectedSymbol} />}
+                    </div>
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Industrials'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Information Technology'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Health Care'} view={view} />
+
+                    
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Financials'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Consumer Discretionary'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Consumer Staples'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Energy'} view={view} />
+                    
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Communication Services'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Materials'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Real Estate'} view={view} />
+                    <AllSectors onSymbolSelect={handleSymbolSelect} sectorSelect={'Utilities'} view={view} />
+
+                    
+                </div>
 
 
-          <div className="flex flex-col sm:flex-col lg:flex-col pb-10 lg:min-h-64 justify-start place-content-start">
-            <div className="w-[980px] lg:w-[980px] flex p-2 pb-3">
-                <AllSectors onSymbolSelect={handleSymbolSelect}/>
-              {/* <TopPicks onSymbolSelect={handleSymbolSelect} /> */}
-              {/* <TierList onSymbolSelect={handleSymbolSelect} /> */}
+
+                {/* <div className="flex flex-row h-[440px] w-full sm:h-[440px] sm:w-full lg:h-[620px] lg:w-[1060px] pb-10">
+                    <TradingViewWidget /> 
+                </div> */}
 
             </div>
 
-            <div className="flex flex-col lg:flex-col gap-0 w-full lg:w-full pt-3 px-2 pb-1 lg:pl-2 bg-[#E5E5E4] rounded-md">
-              {selectedSymbol && <Stock symbol={selectedSymbol} />}
-            </div>
-          </div>
-          <div className="flex flex-row h-[440px] w-full sm:h-[440px] sm:w-full lg:h-[620px] lg:w-[1060px] pb-10">
-            {/* <TradingViewWidget />  */}
-          </div>
-
+            {/* <Footer /> */}
         </div>
-
-      </div>
-
-      <Footer />
-    </div>
-  );
+    );
 }
