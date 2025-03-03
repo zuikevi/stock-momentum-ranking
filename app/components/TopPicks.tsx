@@ -4,22 +4,24 @@ import { useData } from '../context/DataContext';
 
 interface TopPicksProps {
     onSymbolSelect: (symbol: string) => void;
+    sectorSelect: string;
+    view: string;
 }
 
-const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
+const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect, sectorSelect, view }) => {
 
     const data = useData();
     const assets = data?.filterData;
 
     const [sym, setSym] = useState(' '); // selected ticker
-    const [view, setView] = useState('Both'); // both, stm, ltm
+    // const [view, setView] = useState('Both'); // both, stm, ltm
 
-    const [sectorSort, setSector] = useState('All Stocks');
-    const sectors = ["All Stocks", "Watchlist", "Health Care", "Information Technology", "Materials", "Communication Services", "Utilities",
-        "Financials", "Consumer Staples", "Energy", "Industrials", "Real Estate", "Consumer Discretionary"];
+    // const [sectorSort, setSector] = useState('All Stocks');
+    // const sectors = ["All Stocks", "Watchlist", "Health Care", "Information Technology", "Materials", "Communication Services", "Utilities",
+    //     "Financials", "Consumer Staples", "Energy", "Industrials", "Real Estate", "Consumer Discretionary"];
 
     // const watchlist = ["NVDA", "SMCI", "KEYS"];
-    const [sel, setSelected] = useState(true);
+    // const [sel, setSelected] = useState(true);
 
     if (!data) {
         return (
@@ -36,57 +38,26 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect }) => {
 
     let assetsToDisplay;
 
-    if (sectorSort !== 'All Stocks') {
-        assetsToDisplay = assets?.filter(item => (item.sector === sectorSort));
+    if (sectorSelect !== 'All Stocks') {
+        assetsToDisplay = assets?.filter(item => (item.sector === sectorSelect));
     }
     else assetsToDisplay = assets;
 
     const topSTM = (view === 'Both') ? assetsToDisplay?.sort((a, b) => (b.STM + b.LTM) - (a.STM + a.LTM))
         : (view === 'STM') ? assetsToDisplay?.sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
-        : (view === 'LTM') ? assetsToDisplay?.sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
-        : (view === '1D') ? assetsToDisplay?.sort((a, b) => (Number(b['1D']) + Number(b['1D'])) - (Number(a['1D']) + Number(a['1D'])))
-        : (view === '1M') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === '1Y') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === '5D') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === '3Y') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === 'max') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])));
+            : (view === 'LTM') ? assetsToDisplay?.sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
+                : (view === '1D') ? assetsToDisplay?.sort((a, b) => (Number(b['1D']) + Number(b['1D'])) - (Number(a['1D']) + Number(a['1D'])))
+                    : (view === '1M') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
+                        : (view === '1Y') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
+                            : (view === '5D') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
+                                : (view === '3Y') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
+                                    : (view === 'max') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
+                                        : assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])));
 
     return (
-        <div className='flex flex-col place-content-start text-[#141414] sm:w-fit lg:w-[980px]'>
+        <div className='flex flex-col place-content-start text-[#141414] sm:w-fit lg:w-[1060px]'>
 
-            <div className={`relative text-xs text-nowrap cursor-pointer z-40 font-semibold ${sel === true ? '' : 'hidden'}`}>
-                <div className='relative lg:absolute flex flex-row flex-wrap lg:flex-col gap-1 pb-2 lg:-left-56 lg:top-10'>
-                    {sectors?.map((sector) => (
-                        <button
-                            key={sector}
-                            onClick={() => { setSector(sector), setSelected(true)}}
-                            className={`flex flex-col gap-1 text-left font-semibold text-sm px-2 rounded-full border border-1 
-                                ${sectorSort == sector ? 'border-[#38A8C1] bg-[#C8EAF0] text-[#38A8C1]'
-                                : ' border-[#B1B1B1] bg-[#E4E4E4] text-[#B1B1B1]'}`}>
-                            {sector}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            <section className={`flex flex-row gap-3 p-1 font-semibold text-sm`}>
-                {['Both', 'STM', 'LTM', '1D', '5D', '1M', '1Y', '3Y', '5Y', 'max'].map((option) => (
-                    <button
-                        key={option}
-                        type="button"
-                        id={`sort-${option.toLowerCase()}`}
-                        aria-pressed={view === option}
-                        aria-labelledby={`sort-${option.toLowerCase()}`}
-                        onClick={() => setView(option)}
-                        className={`${view === option ? 'text-[#141414]' : 'text-[#CAC8C7]'}`}
-                    >
-                        {option}
-                    </button>
-                ))}
-            </section>
-
-            <section className='flex flex-row flex-wrap gap-1 pb-6 sm:pb-6 lg:pb-2'>
+            <section className='flex flex-row flex-wrap gap-0.5 pb-6 sm:pb-6 lg:pb-2'>
                 {topSTM?.map((row, index) => (
                     <button
                         key={index}
