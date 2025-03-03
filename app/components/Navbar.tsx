@@ -8,13 +8,13 @@ export function Navbar() {
       <div className="flex flex-row justify-start content-center">
         <p className="cursor-pointer h-8 content-center">
           <Link to="/"><img
-            src="/favicon.png"
+            src="/cat.png"
             alt="Icon"
             className="h-8 inline-block rounded-md"
         /></Link></p>
-        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/filterBySector">Quick View </Link></p>
-        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/">Filter </Link></p>
-        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/momentum">Table</Link></p>
+        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/">Home</Link></p>
+        {/* <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/about">About</Link></p> */}
+        <p className="navbar-btn cursor-pointer content-center hover:bg-[#E4E4E4] rounded-md"><Link to="/">Stocks</Link></p>
       </div>
     </div>
   );

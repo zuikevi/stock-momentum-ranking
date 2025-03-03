@@ -15,9 +15,10 @@ const Stock: React.FC<selected> = ({ symbol }) => {
     const asset = data?.filterData.find(pv => pv.symbol === symbol);
 
     if (!selected) { return <div>Loading...</div>; }
+    if (!priceData) { return <div>Loading...</div>; }
 
     return (
-        <div className="relative text-[#141414] px-1">
+        <div className="relative text-[#141414] px-1 pb-6 max-w-[380px]">
 
             <div className='flex flex-row'>
                 <p className="text-sm font-semibold">{selected[0]}</p>
@@ -36,10 +37,10 @@ const Stock: React.FC<selected> = ({ symbol }) => {
 
                 <div>
                     <p className="text-sm font-semibold pt-2">{selected[1]}</p>
-                    <p className="text-sm font-regular">{selected[3]}</p>
+                    <p className="text-sm font-regular text-wrap">{selected[3]}</p>
                     <div className='flex flex-row gap-2 flex-wrap'>
-                        <p className="text-sm font-regular">{selected[4]}</p>
-                        <p className="text-sm font-regular">{selected[7]}</p>
+                        <p className="text-sm font-regular text-wrap">{selected[4]}</p>
+                        <p className="text-sm font-regular text-wrap">{selected[7]}</p>
                     </div>
                 </div>
 
@@ -53,16 +54,32 @@ const Stock: React.FC<selected> = ({ symbol }) => {
 
 
                 <div>
-                    <p className="text-sm font-regular font-semibold text-wrap">Momentum Score</p>
-                    <div className='flex flex-row gap-4 text-left'>
-                        <p className="col-span-1 text-sm font-regular px-1">{priceData?.STM} short-term</p>
-                        {/* <p className="col-span-5 text-xs font-regular px-1">short-term momentum percentile (1D, 5D, 1M)</p> */}
-                        <p className="col-span-1 text-sm font-regular px-1">{priceData?.LTM} long-term</p>
-                        {/* <p className="col-span-5 text-xs font-regular px-1">long-term momentum percentile (1Y, 3Y, 5Y)</p> */}
+                    <p className="text-sm font-semibold text-wrap">Momentum Score and Price Change</p>
+                    <div className='flex flex-row gap-1 text-left font-semibold'>
+                        <p className={`col-span-1 text-sm ${priceData?.STM > 0.5 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{priceData?.STM}</p>
+                        <p className="text-xs pr-10 pt-0.5">STM</p>
+                        <p className={`text-sm ${asset!['1D'] > 0 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{asset!['1D']}</p>
+                        <p className="text-xs pr-2 pt-0.5">1D</p>
+                        <p className={`text-sm ${asset!['5D'] > 0 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{asset!['5D']}</p>
+                        <p className="text-xs pr-2 pt-0.5">5D</p>
+                        <p className={`text-sm ${asset!['1M'] > 0 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{asset!['1M']}</p>
+                        <p className="text-xs pt-0.5">1M</p>
+                        
+                    </div>
+
+                    <div className='flex flex-row gap-1 text-left font-semibold'>
+                        <p className={`col-span-1 text-sm ${priceData?.LTM > 0.5 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{priceData?.LTM}</p>
+                        <p className="text-xs pr-10 pt-0.5">LTM</p>
+                        <p className={`text-sm ${asset!['1Y'] > 0 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{asset!['1Y']}</p>
+                        <p className="text-xs pr-2 pt-0.5">1Y</p>
+                        <p className={`text-sm ${asset!['3Y'] > 0 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{asset!['3Y']}</p>
+                        <p className="text-xs pr-2 pt-0.5">3Y</p>
+                        <p className={`text-sm ${asset!['5Y'] > 0 ? 'text-[#94AE32]' :'text-[#BF503C]'}`}>{asset!['5Y']}</p>
+                        <p className="text-xs pt-0.5">5Y</p>
                     </div>
                 </div>
 
-                <div>
+                {/* <div>
                     <p className="text-sm font-regular font-semibold text-wrap pt-2">Price Change Percentiles</p>
                     <div className='grid grid-cols-6 text-center w-[300px]'>
                         <p className="text-xs font-regular px-1">1D</p>
@@ -79,7 +96,7 @@ const Stock: React.FC<selected> = ({ symbol }) => {
                         <p className="text-sm font-regular px-1">{asset!['3Y']}</p>
                         <p className="text-sm font-regular px-1">{asset!['5Y']}</p>
                     </div>
-                </div>
+                </div> */}
             </section>
 
             <div className='flex flex-row gap-1 pt-2'>

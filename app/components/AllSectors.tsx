@@ -17,17 +17,7 @@ const AllSectors: React.FC<AllSectorsProps> = ({ onSymbolSelect, sectorSelect, v
 
     // const [view, setView] = useState('Both'); // both, stm, ltm
 
-    if (!data) {
-        return (
-            <div className='flex flex-col'>
-                <div className='flex flex-row gap-4 rounded-full bg-[#DCF367] py-1 px-2'>
-                    <p>API key</p>
-                    <input id="key" name="key" className='rounded'></input>
-                </div>
-            </div>
-        );
-    }
-
+    if (!data) { return <div>Loading...</div>; }
     if (!data.filterData) { return <div>Loading...</div>; }
 
     const sectorSplit = assets?.filter(item => (item.sector === sectorSelect));
@@ -49,7 +39,7 @@ const AllSectors: React.FC<AllSectorsProps> = ({ onSymbolSelect, sectorSelect, v
 
             <p className='text-sm font-semibold'>{sectorSelect}</p>
 
-            <div className='flex flex-row flex-wrap gap-1 pb-2 w-fit lg:w-[460px]'>
+            <div className='flex flex-row flex-wrap gap-0.5 pb-2 w-fit lg:w-[460px]'>
                 {topSTM?.map((row, index) => (
                     <button
                         key={index}

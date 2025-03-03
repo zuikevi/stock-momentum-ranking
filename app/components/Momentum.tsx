@@ -62,7 +62,7 @@ const Momentum: React.FC<MomentumProps> = ({ onRowSelect }) => {
 
 
     return (
-        <div className='grid place-content-center text-[#141414] mx-auto text-xs sm:text-xs lg:text-base w-fit lg:w-full'>
+        <div className='grid text-[#141414] mx-auto text-xs sm:text-xs lg:text-base w-fit lg:w-full'>
             <table className="mt-6 text-wrap truncate table-fixed rounded-lg outline outline-1 outline-offset-0 outline-[#363A44]">
                 <thead>
                     <tr>
