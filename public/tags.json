@@ -1,0 +1,10 @@
+{
+    "tags": [
+        [
+            "multi sector filter",
+            ["Health Care", "Energy"],
+            "1D",
+            ["between", "1D", "0.4", "0.9", "border-[#F2F1EF] bg-[#EA5832] text-[#F2F1EF]"]
+        ]
+    ]
+}
