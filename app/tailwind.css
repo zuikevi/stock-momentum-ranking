@@ -8,13 +8,25 @@
 
     .text-title { @apply text-3xl font-medium text-center px-4 py-4; }
 
-    .btnGreenT1 { @apply border-[#DFE6B9] text-[#F2F1EF] bg-[#94AE32]}
-    .btnGreenT2 { @apply border-[#94AE32] text-[#94AE32] bg-[#DFE6B9]}
-    .btnGreenT3 { @apply border-[#99A233] text-[#99A233] bg-[#DFE0B7]}
+    .btnGreenT1 { @apply border-[#94AD18] text-[#DFE6B6] bg-[#94AD18]}
+    .btnGreenT2 { @apply border-[#94AD18] text-[#94AD18] bg-[#DFE6B6]}
+    .btnGreenT3 { @apply border-[#94AD18] text-[#94AD18] bg-[#DFE6B6]}
 
-    .btnWhiteT1 { @apply border-[#9F9735] text-[#9F9735] bg-[#F2F1EF]}
-    .btnWhiteT2 { @apply border-[#B4683A] text-[#B4683A] bg-[#F2F1EF]}
+    .btnWhiteT1 { @apply border-[#94AD18] text-[#94AD18] bg-[#121212]}
+    .btnWhiteT2 { @apply border-[#BF503C] text-[#BF503C] bg-[#121212]}
 
-    .btnRedT2 { @apply border-[#BA5C3B] text-[#BA5C3B] bg-[#E0B9AC]}
-    .btnRedT1 { @apply border-[#E0B3AA] text-[#F2F1EF] bg-[#BF503C]}
+    .btnRedT2 { @apply border-[#BF503C] text-[#BF503C] bg-[#E0B9AC]}
+    .btnRedT1 { @apply border-[#BF503C] text-[#E0B9AC] bg-[#BF503C]}
+
+
+    .btnBlueThemeT1 { @apply border-[#3C98BF] text-[#AAD2E0] bg-[#3C98BF]}
+    .btnBlueThemeT2 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#AAD2E0]}
+    .btnBlueThemeT3 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#AAD2E0]}
+
+    .btnBlueThemeWhiteT1 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#121212]}
+
+
+    .btnBlueT1 { @apply border-[#C8EAF0] text-[#F2F1EF] bg-[#38A8C1]}
+    .btnBlueT2 { @apply border-[#38A8C1] text-[#38A8C1] bg-[#C8EAF0]}
+    .btnWhiteBlueT1 { @apply border-[#38A8C1] text-[#38A8C1] bg-[#F2F1EF]}
 }

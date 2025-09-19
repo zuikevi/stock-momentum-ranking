@@ -5,14 +5,15 @@ import { useData } from '../context/DataContext';
 interface TopPicksProps {
     onSymbolSelect: (symbol: string) => void;
     sectorSelect: string;
+    setFilter: string;
     view: string;
 }
 
-const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect, sectorSelect, view }) => {
+const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect, sectorSelect, setFilter, view }) => {
 
     const data = useData();
     const assets = data?.filterData;
-
+    const assetDetails = data?.assetData;
     const [sym, setSym] = useState(' '); // selected ticker
     // const [view, setView] = useState('Both'); // both, stm, ltm
 
@@ -38,26 +39,45 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect, sectorSelect, view 
 
     let assetsToDisplay;
 
-    if (sectorSelect !== 'All Stocks') {
-        assetsToDisplay = assets?.filter(item => (item.sector === sectorSelect));
+    if (!sectorSelect.includes('All Sectors')) {
+        // assetsToDisplay = assets?.filter(item => (item.sector === sectorSelect));
+        assetsToDisplay = assets?.filter(item => sectorSelect.includes(item.sector));
     }
     else assetsToDisplay = assets;
 
+    if(setFilter  === 'Watchlist') assetsToDisplay = assets?.filter(item => (item.watchlist === true));
+    else if(setFilter === "short-term") assetsToDisplay = assets?.filter(item => ((item.STM >= 0.9) && (item.LTM < 0.1)));
+    else if(setFilter === "IT & Health Care above 0.9 stm"){
+        assetsToDisplay = assets?.filter(item => ((item.sector === "Information Technology") || (item.sector === "Health Care")));
+        assetsToDisplay = assetsToDisplay?.filter(item => (item.STM >= 0.8));
+        view = 'STM';
+    }
+    else if(setFilter === "hardware / chip stocks"){
+        const temp = assetDetails?.filter(item => (item.subIndustry === "Semiconductor Materials & Equipment" || item.subIndustry === "Electronic Equipment & Instruments"
+             || item.subIndustry === "Electronic Components" || item.subIndustry === "Semiconductors" || item.subIndustry === "Electrical Components & Equipment"));
+             const symbols = temp?.map(item => item.symbol);
+        assetsToDisplay = assets?.filter(item => symbols?.includes(item.symbol));
+    }
+    else if(setFilter === "why did I buy this"){
+        assetsToDisplay = assets?.filter(item => item.symbol === "NOW" || item.symbol === "NKE" || item.symbol === "WBA");
+    }
+    else if(setFilter === "holding since covid"){
+        assetsToDisplay = assets?.filter(item => item.symbol === "MRNA" || item.symbol === "CE" || item.symbol === "CMG"  || item.symbol === "PARA"  || item.symbol === "AAL");
+    }
+    else if(setFilter === "1D change > 3%"){
+        assetsToDisplay = assets?.filter(item => ((item['1D'] >= 3) || (item['1D'] <= -3)));
+        view = '1D';
+    }
+
     const topSTM = (view === 'Both') ? assetsToDisplay?.sort((a, b) => (b.STM + b.LTM) - (a.STM + a.LTM))
         : (view === 'STM') ? assetsToDisplay?.sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
-            : (view === 'LTM') ? assetsToDisplay?.sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
-                : (view === '1D') ? assetsToDisplay?.sort((a, b) => (Number(b['1D']) + Number(b['1D'])) - (Number(a['1D']) + Number(a['1D'])))
-                    : (view === '1M') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-                        : (view === '1Y') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-                            : (view === '5D') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-                                : (view === '3Y') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-                                    : (view === 'max') ? assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-                                        : assetsToDisplay?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])));
+        : (view === 'LTM') ? assetsToDisplay?.sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
+        : assetsToDisplay?.sort((a, b) => Number(b[view as keyof typeof b]) - Number(a[view as keyof typeof a]));
 
     return (
-        <div className='flex flex-col place-content-start text-[#141414] sm:w-fit lg:w-[1060px]'>
+        <div className='flex flex-col place-content-start text-[#141414] sm:w-fit lg:w-[1000px]'>
 
-            <section className='flex flex-row flex-wrap gap-0.5 pb-6 sm:pb-6 lg:pb-2'>
+            <section className='flex flex-row flex-wrap pb-6 sm:pb-6 lg:pb-2 gap-0.5'>
                 {topSTM?.map((row, index) => (
                     <button
                         key={index}
@@ -65,10 +85,11 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect, sectorSelect, view 
                         id={`asset-${row.symbol}`}
                         aria-labelledby={`asset-${row.symbol}`}
                         aria-pressed={sym === row.symbol}
-                        className={`flex flex-row gap-3 shrink cursor-pointer content-center justify-center sm:min-w-0 lg:min-w-4 font-semibold text-sm px-2 rounded-full border border-1 
+                        className={`flex flex-row gap-3 shrink cursor-pointer content-center justify-center sm:min-w-0 lg:min-w-4 font-semibold text-sm px-2 rounded-md border border-1 
                             hover:border-[#141414] hover:text-[#F2F1EF] hover:bg-[#141414]
 
                         ${(sym === row.symbol) ? 'border-[#141414] text-[#F2F1EF] bg-[#141414]'
+
                         : ((row.STM < 0.1 && row.LTM >= 0.9) && view == 'Both') ? 'border-[#38A8C1] bg-[#C8EAF0] text-[#38A8C1]'
                         : ((row.STM >= 0.9 && row.LTM < 0.1) && view == 'Both') ? 'border-[#773CBF] text-[#773CBF] bg-[#BEAAE0]'
 
@@ -80,11 +101,11 @@ const TopPicks: React.FC<TopPicksProps> = ({ onSymbolSelect, sectorSelect, view 
                         : ( ((row.STM + row.LTM >= 0.2) && view === 'Both') || (row.STM >= 0.1 && view === 'STM') || (row.LTM >= 0.1 && view === 'LTM')) ? 'btnRedT2'
                         : ( ((row.STM + row.LTM < 0.2) && view === 'Both') || (row.STM < 0.1 && view === 'STM') || (row.LTM < 0.1 && view === 'LTM')) ? 'btnRedT1'
 
-                        : (Number(row[view as keyof typeof row]) >= 10) ? 'btnGreenT1'
+                        : (Number(row[view as keyof typeof row]) >= 10) ? 'btnBlueThemeT1'
                         : (Number(row[view as keyof typeof row]) <= -10) ? 'btnRedT1'
-                        : (Number(row[view as keyof typeof row]) >= 3) ? 'btnGreenT2'
+                        : (Number(row[view as keyof typeof row]) >= 3) ? 'btnBlueThemeT2'
                         : (Number(row[view as keyof typeof row]) <= -3) ? 'btnRedT2'
-                        : (Number(row[view as keyof typeof row]) >= 0) ? 'btnWhiteT1'
+                        : (Number(row[view as keyof typeof row]) >= 0) ? 'btnBlueThemeWhiteT1'
                         : (Number(row[view as keyof typeof row]) < 0) ? 'btnWhiteT2'
                         
                         : 'border-[#CAC8C7] bg-[#E1DFDD]'}

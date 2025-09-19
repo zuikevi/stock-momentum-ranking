@@ -25,13 +25,7 @@ const AllSectors: React.FC<AllSectorsProps> = ({ onSymbolSelect, sectorSelect, v
     const topSTM = (view === 'Both') ? sectorSplit?.sort((a, b) => (b.STM + b.LTM) - (a.STM + a.LTM))
         : (view === 'STM') ? sectorSplit?.sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
         : (view === 'LTM') ? sectorSplit?.sort((a, b) => (b.LTM ?? 0) - (a.LTM ?? 0))
-        : (view === '1D') ? sectorSplit?.sort((a, b) => (Number(b['1D']) + Number(b['1D'])) - (Number(a['1D']) + Number(a['1D'])))
-        : (view === '1M') ? sectorSplit?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === '1Y') ? sectorSplit?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === '5D') ? sectorSplit?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === '3Y') ? sectorSplit?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : (view === 'max') ? sectorSplit?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])))
-        : sectorSplit?.sort((a, b) => (Number(b[view as keyof typeof b]) + Number(b[view as keyof typeof b])) - (Number(a[view as keyof typeof a]) + Number(a[view as keyof typeof a])));
+        : sectorSplit?.sort((a, b) => Number(b[view as keyof typeof b]) - Number(a[view as keyof typeof a]));
 
 
     return (
