@@ -31,12 +31,14 @@ interface StocksByTagProps {
     view: string;
 }
 
+
 const StocksByTag: React.FC<StocksByTagProps> = ({ onSymbolSelect, tagText, assetsToDisplay, view }) => {
 
     const data = useData();
     const [sym, setSym] = useState(' ');
     if (!data) { return <div>Loading...</div>; }
     if (!data.filterData) { return <div>Loading...</div>; }
+    
 
     const topSTM = (view === 'Both') ? assetsToDisplay?.sort((a, b) => (b.STM + b.LTM) - (a.STM + a.LTM))
         : (view === 'STM') ? assetsToDisplay?.sort((a, b) => (b.STM ?? 0) - (a.STM ?? 0))
@@ -44,7 +46,7 @@ const StocksByTag: React.FC<StocksByTagProps> = ({ onSymbolSelect, tagText, asse
         : assetsToDisplay?.sort((a, b) => Number(b[view as keyof typeof b]) - Number(a[view as keyof typeof a]));
 
     return (
-        <div className='flex flex-col place-content-start text-[#FFFFFF] sm:w-fit lg:w-[600px]'>
+        <div className={`${tagText === "All Sectors" ? 'lg:w-[760px]' : 'lg:w-[600px]'} flex flex-col place-content-start text-[#FFFFFF] sm:w-fit`}>
             <p className='font-semibold text-sm'>{tagText}</p>
             <section className='flex flex-row flex-wrap pb-6 sm:pb-6 lg:pb-2 gap-0.5'>
                 {topSTM?.map((row, index) => (
@@ -88,7 +90,6 @@ const StocksByTag: React.FC<StocksByTagProps> = ({ onSymbolSelect, tagText, asse
                     </button>
                 ))}
             </section>
-
         </div>
     );
 }

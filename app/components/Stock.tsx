@@ -22,7 +22,7 @@ const Stock: React.FC<selected> = ({ symbol }) => {
     if (!asset) { return <div>Loading...</div>; }
 
     return (
-        <div className="relative text-[#FFFFFF] px-1 pb-6 max-w-[700px]">
+        <div className="relative text-[#FFFFFF] bg-[#121212] p-2 max-w-[700px]">
 
             <div className='flex flex-row'>
                 <p className="text-sm font-semibold">{assetDetails?.symbol}</p>
@@ -90,16 +90,7 @@ const Stock: React.FC<selected> = ({ symbol }) => {
             <div className='flex flex-wrap flex-row gap-1 pt-2'>
 
                 <p className={`flex flex-row gap-3 shrink  cursor-pointer content-center justify-center min-w-4 font-semibold text-sm px-2 rounded-full 
-                    border border-1 border-[#38A8C1] bg-[#C8EAF0] text-[#38A8C1]`}>{asset?.sector}</p>
-
-                <p className={`flex flex-row gap-3 shrink  cursor-pointer content-center justify-center min-w-4 font-semibold text-sm px-2 rounded-full 
-                    border border-1 border-[#773CBF] text-[#773CBF] bg-[#BEAAE0]`}>short-term</p>
-
-                <p className={`flex flex-row gap-3 shrink  cursor-pointer content-center justify-center min-w-4 font-semibold text-sm px-2 rounded-full 
-                    border border-1 btnGreenT2`}>{'$ dip in 2021'}</p>
-
-                <p className={`flex flex-row gap-3 shrink  cursor-pointer content-center justify-center min-w-4 font-semibold text-sm px-2 rounded-full 
-                    border border-1 btnRedT2`}>why did I buy this</p>
+                    border border-1 border-[#DCF367] bg-[#DCF367] text-[#121212]`}>{asset?.sector}</p>
             </div>
         </div>
     );
