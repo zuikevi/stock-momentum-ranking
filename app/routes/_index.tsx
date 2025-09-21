@@ -1,12 +1,10 @@
 import { useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 // import { Navbar } from "~/components/Navbar";
-// import { Footer } from "~/components/Footer";
-// import TopPicks from "~/components/TopPicks";
 import StocksByTag from "~/components/StocksByTag";
 import Stock from "~/components/Stock";
-import TradingViewWidget from "~/components/TradingViewWidget";
-import { FaChevronDown} from "react-icons/fa";
+// import TradingViewWidget from "~/components/TradingViewWidget";
+import { FaChevronDown } from "react-icons/fa";
 import { useData } from '../context/DataContext';
 import { Link } from '@remix-run/react';
 
@@ -30,6 +28,9 @@ export default function Index() {
   const [view, setView] = useState('Both'); // both, stm, ltm
   const [layout, setLayout] = useState('split'); // all, split, table
 
+  const [heatmapColours, setHeatmapColours] = useState('blue'); // blue, green
+  const [dynamicSize, setDynamicSize] = useState(true); // on, off
+
   const [sectorSort, setSector] = useState('All Stocks');
   const sectors = ["All Sectors", "Health Care", "Information Technology", "Materials", "Communication Services", "Utilities",
     "Financials", "Consumer Staples", "Energy", "Industrials", "Real Estate", "Consumer Discretionary"];
@@ -37,6 +38,9 @@ export default function Index() {
   const [filterSelect, setFilterSelected] = useState(false);
   const [searchSelect, setSearchSelected] = useState(false);
 
+  const handleToggleHeatmapColours = () => {
+    heatmapColours === 'blue' ? setHeatmapColours('green') : setHeatmapColours('blue');
+  };
 
   const temp = data?.assetData?.filter(item => (item.subIndustry === "Semiconductor Materials & Equipment" || item.subIndustry === "Electronic Equipment & Instruments"
     || item.subIndustry === "Electronic Components" || item.subIndustry === "Semiconductors" || item.subIndustry === "Electrical Components & Equipment"));
@@ -89,14 +93,14 @@ export default function Index() {
 
           <p className="pt-6">Customise</p>
 
-          <div className="flex flex-row pl-4 pt-1 flex-wrap pb-2">
+          <div className={`${layout === 'all' ? '' : 'hidden'} flex flex-row pl-4 pt-1 flex-wrap pb-2`}>
             <button
               key="filter-popup-toggle"
               type="button"
               id={`filter-popup-toggle`}
               aria-pressed={layout === 'filter-popup-toggle'}
               aria-labelledby={`filter-popup-toggle`}
-              onClick={() => { setFilterSelected(!filterSelect)}}
+              onClick={() => { setFilterSelected(!filterSelect) }}
               className={`flex flex-row content-center justify-center sm:min-w-0 lg:min-w-4 font-semibold text-sm rounded-full border border-1 
                 hover:border-[#141414] hover:text-[#F2F1EF] hover:bg-[#121212] border-[#121212] bg-[#121212] text-[#FFFFFF] 
                 ${layout === 'filter-popup-toggle' ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'}`}
@@ -119,10 +123,9 @@ export default function Index() {
 
           </div>
 
-          <div className={`flex flex-row pl-4 gap-2 font-semibold text-sm flex-wrap pb-2`}>
-            <p className="">Sort by</p>
-            {/* <p className="bg-[#DCF367] text-[#121212] rounded-md ml-2 px-1">1D</p> */}
-            {['Both', 'STM', 'LTM', '1D', '5D', '1M', '1Y', '3Y', '5Y'].map((option) => (
+          <div className={`flex flex-row pl-4 gap-1 font-semibold text-sm flex-wrap pb-2`}>
+            <p className="">Sort by:</p>
+            {['Both', 'STM', 'LTM', '1D', '5D', '1M', '1Y', '3Y', '5Y', 'max'].map((option) => (
               <button
                 key={option}
                 type="button"
@@ -130,21 +133,45 @@ export default function Index() {
                 aria-pressed={view === option}
                 aria-labelledby={`sort-${option.toLowerCase()}`}
                 onClick={() => setView(option)}
-                className={`${view === option ? 'bg-[#DCF367] text-[#121212] rounded-md px-1' : 'text-[#CAC8C7]'}`}
+                className={`${view === option ? 'bg-[#DCF367] text-[#121212] rounded-md' : 'text-[#CAC8C7]'} px-1`}
               >
                 {option}
               </button>
             ))}
           </div>
-          <p className="pl-4 underline">Heatmap Colours</p>
-          <p className="pl-4 underline">Highlights</p>
+          <button
+              key="display-split"
+              type="button"
+              id={`display-split`}
+              aria-pressed={layout === 'split'}
+              aria-labelledby={`display-split`}
+              onClick={() => handleToggleHeatmapColours()}
+              className={`rounded-md ml-4 flex flex-row`}
+            >
+              <p className="">Heatmap Colours:</p>
+              <p className={`${heatmapColours === 'blue' ? '' : 'hidden'} text-[#3C98BF] bg-[#AAD2E0] border-[#3C98BF] border border-1 ml-2 rounded-md px-1 min-w-5`}>( ˘ ³˘)</p>
+              <p className={`${heatmapColours === 'green' ? '' : 'hidden'} text-[#94AD18] bg-[#DFE6B6] border-[#94AD18] border border-1 ml-2 rounded-md px-1 min-w-5`}>(´・ω・)</p>
+            </button>
 
-          <div className="flex flex-row pt-1">
-            <p className="pl-4">Dynamic Size</p>
-            <p className="bg-[#CAC8C7] text-[#121212] rounded-md ml-2 px-1">off</p>
-          </div>
+          <button
+              key="display-split"
+              type="button"
+              id={`display-split`}
+              aria-pressed={layout === 'split'}
+              aria-labelledby={`display-split`}
+              onClick={() => setDynamicSize(!dynamicSize)}
+              className={`rounded-md ml-4 flex flex-row pt-1`}
+            >
+              <p className="">Dynamic Size:</p>
+              <p className={`${!dynamicSize ? '' : 'hidden'} bg-[#CAC8C7] text-[#121212] rounded-md ml-2 px-1`}>off</p>
+              <p className={`${dynamicSize ? '' : 'hidden'} bg-[#DCF367] text-[#121212] rounded-md ml-2 px-1`}>on</p>
+            </button>
 
           <p className="pt-6">Advanced Settings</p>
+          <div className="flex flex-row pt-1">
+              <p className="pl-4">Highlights</p>
+          <p className={`bg-[#CAC8C7] text-[#121212] rounded-md ml-2 px-1`}>soon</p>
+            </div>
           <div className="flex flex-row pt-1">
             <p className="pl-4">Data Selection</p>
             <p className="pl-1 pt-0.5 content-center"><FaChevronDown size={12} /></p>
@@ -199,6 +226,8 @@ export default function Index() {
                     tagText={"Watchlist"}
                     assetsToDisplay={data?.filterData?.filter(item => (item.watchlist === true))}
                     view={view}
+                    heatmapColour={heatmapColours}
+                    dynamicSize={dynamicSize}
                   />
 
                   <StocksByTag
@@ -206,6 +235,8 @@ export default function Index() {
                     tagText={"holding since covid"}
                     assetsToDisplay={data?.filterData?.filter(item => item.symbol === "MRNA" || item.symbol === "CE" || item.symbol === "CMG" || item.symbol === "PARA" || item.symbol === "AAL")}
                     view={view}
+                    heatmapColour={heatmapColours}
+                    dynamicSize={dynamicSize}
                   />
 
                   <StocksByTag
@@ -213,13 +244,35 @@ export default function Index() {
                     tagText={"hardware / chip stocks"}
                     assetsToDisplay={data?.filterData?.filter(item => symbols?.includes(item.symbol))}
                     view={view}
+                    heatmapColour={heatmapColours}
+                    dynamicSize={dynamicSize}
                   />
 
                   <StocksByTag
                     onSymbolSelect={handleSymbolSelect}
-                    tagText={"1D change > 6%"}
-                    assetsToDisplay={data?.filterData?.filter(item => ((item['1D'] >= 6) || (item['1D'] <= -6)))}
+                    tagText={"1D change > 3%"}
+                    assetsToDisplay={data?.filterData?.filter(item => ((item['1D'] >= 3) || (item['1D'] <= -3)))}
                     view={"1D"}
+                    heatmapColour={heatmapColours}
+                    dynamicSize={dynamicSize}
+                  />
+
+                  <StocksByTag
+                    onSymbolSelect={handleSymbolSelect}
+                    tagText={"1M change > 20%"}
+                    assetsToDisplay={data?.filterData?.filter(item => ((item['1M'] >= 20) || (item['1M'] <= -20)))}
+                    view={"1M"}
+                    heatmapColour={heatmapColours}
+                    dynamicSize={dynamicSize}
+                  />
+
+                  <StocksByTag
+                    onSymbolSelect={handleSymbolSelect}
+                    tagText={"STM > 0.8 and LTM < 0.4"}
+                    assetsToDisplay={data?.filterData?.filter(item => ((item['STM'] >= 0.8) && (item['LTM'] <= 0.4)))}
+                    view={"Both"}
+                    heatmapColour={heatmapColours}
+                    dynamicSize={dynamicSize}
                   />
                 </div>
 
@@ -229,11 +282,12 @@ export default function Index() {
                     tagText={sectorSort}
                     assetsToDisplay={(sectorSort === "All Sectors") ? assets : data?.filterData?.filter(item => sectorSort.includes(item.sector))}
                     view={view}
+                    heatmapColour={heatmapColours}
+                    dynamicSize={dynamicSize}
                   />
-                  {/* <TopPicks onSymbolSelect={handleSymbolSelect} sectorSelect={sectorSort} setFilter={filter} view={view} /> */}
                 </div>
 
-                <div className={`${layout === 'split-by-sector' ? '' : 'hidden'} flex flex-row flex-wrap p-1 gap-1`}>
+                <div className={`${layout === 'split-by-sector' ? '' : 'hidden'} flex flex-row flex-wrap p-1 gap-3`}>
                   {['Industrials', 'Information Technology', 'Health Care', 'Financials', 'Consumer Discretionary', 'Consumer Staples', 'Real Estate',
                     'Utilities', 'Energy', 'Communication Services', 'Materials'].map((option) => (
                       <StocksByTag
@@ -242,6 +296,8 @@ export default function Index() {
                         tagText={option}
                         assetsToDisplay={data?.filterData?.filter(item => (item.sector === option))}
                         view={view}
+                        heatmapColour={heatmapColours}
+                        dynamicSize={dynamicSize}
                       />
                     ))}
                 </div>
@@ -255,9 +311,9 @@ export default function Index() {
                 <div className="pr-2 pt-10 pl-6 pb-6">
                   {selectedSymbol && <Stock symbol={selectedSymbol} />}
                 </div>
-                <div className="h-[440px] w-full sm:h-[440px] sm:w-full lg:h-[390px] lg:w-[660px] mb-2 pr-6 hidden sm:hidden lg:block pl-4">
+                {/* <div className="h-[440px] w-full sm:h-[440px] sm:w-full lg:h-[390px] lg:w-[660px] mb-2 pr-6 hidden sm:hidden lg:block pl-4">
                   <TradingViewWidget />
-                </div>
+                </div> */}
               </div>
 
             </div>

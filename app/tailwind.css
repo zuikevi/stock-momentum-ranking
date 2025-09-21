@@ -10,7 +10,6 @@
 
     .btnGreenT1 { @apply border-[#94AD18] text-[#DFE6B6] bg-[#94AD18]}
     .btnGreenT2 { @apply border-[#94AD18] text-[#94AD18] bg-[#DFE6B6]}
-    .btnGreenT3 { @apply border-[#94AD18] text-[#94AD18] bg-[#DFE6B6]}
 
     .btnWhiteT1 { @apply border-[#94AD18] text-[#94AD18] bg-[#121212]}
     .btnWhiteT2 { @apply border-[#BF503C] text-[#BF503C] bg-[#121212]}
@@ -19,14 +18,13 @@
     .btnRedT1 { @apply border-[#BF503C] text-[#E0B9AC] bg-[#BF503C]}
 
 
-    .btnBlueThemeT1 { @apply border-[#3C98BF] text-[#AAD2E0] bg-[#3C98BF]}
-    .btnBlueThemeT2 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#AAD2E0]}
-    .btnBlueThemeT3 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#AAD2E0]}
+    .btnBlueT1 { @apply border-[#3C98BF] text-[#AAD2E0] bg-[#3C98BF]}
+    .btnBlueT2 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#AAD2E0]}
 
-    .btnBlueThemeWhiteT1 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#121212]}
+    .btnBlueWhiteT1 { @apply border-[#3C98BF] text-[#3C98BF] bg-[#121212]}
 
 
-    .btnBlueT1 { @apply border-[#C8EAF0] text-[#F2F1EF] bg-[#38A8C1]}
-    .btnBlueT2 { @apply border-[#38A8C1] text-[#38A8C1] bg-[#C8EAF0]}
-    .btnWhiteBlueT1 { @apply border-[#38A8C1] text-[#38A8C1] bg-[#F2F1EF]}
+    .btnBlueHighlightT1 { @apply border-[#C8EAF0] text-[#F2F1EF] bg-[#38A8C1]}
+    .btnBlueHighlightT2 { @apply border-[#38A8C1] text-[#38A8C1] bg-[#C8EAF0]}
+    .btnWhiteBlueHighlightT1 { @apply border-[#38A8C1] text-[#38A8C1] bg-[#F2F1EF]}
 }
